@@ -9,14 +9,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class User {
+public class Representative {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Long userId;
-    private String email;
-    private String password;
+    @Column(name = "representative_id", nullable = false)
+    private Long id;
 
-
+    @OneToOne
+    @JoinColumn(
+            name = "f_candidate_id",
+            referencedColumnName = "candidate_id"
+    )
+    private Candidate candidate;
 
 }
