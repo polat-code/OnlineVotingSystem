@@ -13,7 +13,7 @@ public class Candidate{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "candidate_id", nullable = false)
-    private Long candidate_id;
+    private Long candidateId;
 
     @Column(name = "vote_count")
     private int voteCount;

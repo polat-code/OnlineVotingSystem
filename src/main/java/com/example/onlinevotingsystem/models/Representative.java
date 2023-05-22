@@ -13,7 +13,7 @@ public class Representative {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "representative_id", nullable = false)
-    private Long id;
+    private Long representativeId;
 
     @OneToOne
     @JoinColumn(

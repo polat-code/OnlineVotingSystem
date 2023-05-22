@@ -14,7 +14,7 @@ public class Election {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "election_id", nullable = false)
-    private Long id;
+    private Long electionId;
 
     @OneToOne
     @JoinColumn(
