@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private AuthService authService;
-
-
-
    @GetMapping("/login")
    public void login (@RequestBody LoginRequest loginRequest){
        authService.login(loginRequest);
