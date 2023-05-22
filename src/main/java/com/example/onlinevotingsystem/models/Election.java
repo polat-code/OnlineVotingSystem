@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
+import java.util.List;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,12 +19,25 @@ public class Election {
     @Column(name = "election_id", nullable = false)
     private Long electionId;
 
-    @OneToOne
-    @JoinColumn(
-            name = "f_representative_id",
-            referencedColumnName = "representative_id"
+    @Column(name = "election_date")
+    private String electionDate;
+
+    @Column(name = "election_name")
+    private String electionName;
+
+    @ManyToMany
+    @JoinTable(
+            name = "election_candidate_map",
+            joinColumns = @JoinColumn(
+                    name = "f_election_id",
+                    referencedColumnName = "election_id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name="candidate_id",
+                    referencedColumnName = "candidate_id"
+            )
     )
-    private Representative representative;
+    private List<Candidate> candidates;
 
 
     @OneToOne

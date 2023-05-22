@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,5 +25,8 @@ public class Candidate{
             name = "f_user_id",
             referencedColumnName = "user_id"
     )
-    private User user;
+    private Student student;
+
+    @ManyToMany(mappedBy = "candidates")
+    private List<Election> elections;
 }

@@ -15,6 +15,9 @@ public class Faculty {
     @Column(name = "faculty_id", nullable = false)
     private Long id;
 
+    @Column(name = "faculty_name")
+    private String facultyName;
+
 
 
 
