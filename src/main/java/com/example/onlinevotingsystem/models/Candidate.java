@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.List;
 
 @Entity
@@ -27,6 +26,11 @@ public class Candidate{
     )
     private Student student;
 
-    @ManyToMany(mappedBy = "candidates")
-    private List<Election> elections;
+
+    @ManyToOne
+    @JoinColumn(
+            name = "f_election_id",
+            referencedColumnName = "election_id"
+    )
+    private Election election;
 }
