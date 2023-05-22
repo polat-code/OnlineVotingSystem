@@ -23,4 +23,9 @@ public class ElectionController {
         this.electionService.voteCandidateByElectionId(voteRequest);
     }
 
+    @PutMapping("/{electionId}/{candidateId}")
+    public void addCandidateToElectionById(@PathVariable Long candidateId,@PathVariable Long electionId){
+        this.electionService.addCandidateToElectionById(candidateId,electionId);
+    }
+
 }

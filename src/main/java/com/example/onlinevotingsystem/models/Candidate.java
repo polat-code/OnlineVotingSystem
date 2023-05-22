@@ -46,7 +46,7 @@ public class Candidate{
                     referencedColumnName = "election_id"
             )
     )
-    private List<Election> election;
+    private List<Election> elections;
 
 
 

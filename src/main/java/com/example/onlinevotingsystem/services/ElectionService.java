@@ -10,11 +10,8 @@ import com.example.onlinevotingsystem.repository.CandidateRepository;
 import com.example.onlinevotingsystem.repository.ElectionRepository;
 import com.example.onlinevotingsystem.repository.StudentRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -53,12 +50,29 @@ public class ElectionService {
             }
         }
 
+
         if (!hasVoted){
             election.getStudents().add(voterStudent);
+            voterStudent.getElections().add(election);
+
+            electionRepository.save(election);
+            studentRepository.save(voterStudent);
             Candidate candidate = candidateRepository.findById(voteRequest.getCandidateId()).orElseThrow();
             candidate.setVoteCount(candidate.getVoteCount()+1);
             candidateRepository.save(candidate);
+
         }
 
+
+
+    }
+
+    public void addCandidateToElectionById(Long candidateId, Long electionId) {
+        Election election = electionRepository.findById(electionId).get();
+        Candidate candidate = candidateRepository.findById(candidateId).get();
+        election.getCandidates().add(candidate);
+        candidate.getElections().add(election);
+        candidateRepository.save(candidate);
+        electionRepository.save(election);
     }
 }

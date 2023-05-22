@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-@NoArgsConstructor
 public class AuthService {
 
     private StudentRepository studentRepository;
@@ -17,8 +16,7 @@ public class AuthService {
     public void login(LoginRequest loginRequest) {
 
 
-        Student foundUserByEmail = studentRepository.findByEmail(loginRequest.getEmail()).orElseThrow();
-
+        Student foundUserByEmail = studentRepository.findByEmail(loginRequest.getEmail());
 
         if(foundUserByEmail.getPassword().matches(loginRequest.getPassword())){
             System.out.println("Succesfully");

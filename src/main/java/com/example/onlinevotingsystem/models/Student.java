@@ -23,12 +23,8 @@ public class Student extends User{
     @Column(name = "student_number")
     private String studentNumber;
 
-    @OneToOne
-    @JoinColumn(
-            name = "f_application_id",
-            referencedColumnName = "application_id"
-    )
-    private Application applicationId;
+    @OneToOne(mappedBy = "student")
+    private Application application;
 
 
     @ManyToMany
@@ -43,7 +39,7 @@ public class Student extends User{
                     referencedColumnName = "election_id"
             )
     )
-    private List<Election> election;
+    private List<Election> elections;
 
 
 }

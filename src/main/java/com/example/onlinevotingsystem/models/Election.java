@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
 import java.util.List;
 
 @Entity
@@ -33,10 +32,10 @@ public class Election {
     private Department department;
 
 
-    @ManyToMany(mappedBy = "election")
+    @ManyToMany(mappedBy = "elections")
     private List<Student> students;
 
-    @ManyToMany(mappedBy = "election")
+    @ManyToMany(mappedBy = "elections")
     private List<Candidate> candidates;
 
 
