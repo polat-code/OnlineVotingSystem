@@ -25,27 +25,21 @@ public class Election {
     @Column(name = "election_name")
     private String electionName;
 
-    @ManyToMany
-    @JoinTable(
-            name = "election_candidate_map",
-            joinColumns = @JoinColumn(
-                    name = "f_election_id",
-                    referencedColumnName = "election_id"
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name="candidate_id",
-                    referencedColumnName = "candidate_id"
-            )
-    )
-    private List<Candidate> candidates;
-
-
     @OneToOne
     @JoinColumn(
             name = "f_department_id",
             referencedColumnName = "department_id"
     )
     private Department department;
+
+
+    @ManyToMany(mappedBy = "election")
+    private List<Student> students;
+
+    @ManyToMany(mappedBy = "election")
+    private List<com.example.onlinevotingsystem.models.Candidate> candidates;
+
+
 
 
 }

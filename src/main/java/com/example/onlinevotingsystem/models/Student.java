@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @Entity
 @NoArgsConstructor
@@ -29,6 +31,19 @@ public class Student extends User{
     private Application applicationId;
 
 
+    @ManyToMany
+    @JoinTable(
+            name = "election_student",
+            joinColumns = @JoinColumn(
+                    name = "f_user_id",
+                    referencedColumnName = "user_id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name="f_election_id",
+                    referencedColumnName = "election_id"
+            )
+    )
+    private List<Election> election;
 
 
 }

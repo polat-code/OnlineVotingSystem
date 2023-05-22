@@ -27,10 +27,20 @@ public class Candidate{
     private Student student;
 
 
-    @ManyToOne
-    @JoinColumn(
-            name = "f_election_id",
-            referencedColumnName = "election_id"
+
+    @ManyToMany
+    @JoinTable(
+            name = "election_candidate",
+            joinColumns = @JoinColumn(
+                    name = "f_candidate_id",
+                    referencedColumnName = "candidate_id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name="f_election_id",
+                    referencedColumnName = "election_id"
+            )
     )
-    private Election election;
+    private List<com.example.onlinevotingsystem.models.Election> election;
+
+
 }
