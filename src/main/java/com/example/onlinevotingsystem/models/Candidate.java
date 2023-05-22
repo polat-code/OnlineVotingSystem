@@ -2,14 +2,19 @@ package com.example.onlinevotingsystem.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.boot.context.properties.bind.DefaultValue;
+
 import java.util.List;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 public class Candidate{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +22,7 @@ public class Candidate{
     private Long candidateId;
 
     @Column(name = "vote_count")
+    @ColumnDefault("0")
     private int voteCount;
 
     @OneToOne
@@ -40,7 +46,8 @@ public class Candidate{
                     referencedColumnName = "election_id"
             )
     )
-    private List<com.example.onlinevotingsystem.models.Election> election;
+    private List<Election> election;
+
 
 
 }

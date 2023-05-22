@@ -37,7 +37,7 @@ public class Election {
     private List<Student> students;
 
     @ManyToMany(mappedBy = "election")
-    private List<com.example.onlinevotingsystem.models.Candidate> candidates;
+    private List<Candidate> candidates;
 
 
 

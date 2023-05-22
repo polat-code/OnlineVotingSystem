@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FacultyRepository extends JpaRepository<Faculty,Long> {
 
-
     Faculty findByFacultyName(String facultyName);
 
     boolean existsByFacultyName(String facultyName);
