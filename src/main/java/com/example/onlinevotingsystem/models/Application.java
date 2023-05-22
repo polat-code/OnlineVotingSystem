@@ -2,6 +2,7 @@ package com.example.onlinevotingsystem.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 public class Application {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

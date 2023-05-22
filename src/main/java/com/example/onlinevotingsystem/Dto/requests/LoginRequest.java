@@ -12,7 +12,6 @@ import javax.validation.constraints.Size;
 
 @AllArgsConstructor
 @Data
-@NoArgsConstructor
 public class LoginRequest {
 
     @NonNull
