@@ -6,12 +6,14 @@ import com.example.onlinevotingsystem.Dto.responses.ApplicationResponse;
 import com.example.onlinevotingsystem.Dto.responses.ApplicationResponseById;
 import com.example.onlinevotingsystem.models.Application;
 import com.example.onlinevotingsystem.services.ApplicationService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/applications")
+@AllArgsConstructor
 public class ApplicationController {
 
     private ApplicationService applicationService;

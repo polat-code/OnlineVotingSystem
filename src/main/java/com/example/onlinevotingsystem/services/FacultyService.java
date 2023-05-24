@@ -25,7 +25,7 @@ public class FacultyService {
 
         boolean flag = facultyRepository.existsByFacultyName(createFacultyRequest.getFacultyName());
         if(!flag){
-            Faculty faculty = this.modelMapperService.forResponse().map(createFacultyRequest,Faculty.class);
+            Faculty faculty = this.modelMapperService.forRequest().map(createFacultyRequest,Faculty.class);
             this.facultyRepository.save(faculty);
         }
     }
