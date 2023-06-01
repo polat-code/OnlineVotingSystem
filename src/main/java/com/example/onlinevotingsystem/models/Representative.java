@@ -22,4 +22,12 @@ public class Representative {
     )
     private Candidate candidate;
 
+
+    @OneToOne
+    @JoinColumn(
+            name = "f_department_id",
+            referencedColumnName = "department_id"
+
+    )
+    private Department department;
 }

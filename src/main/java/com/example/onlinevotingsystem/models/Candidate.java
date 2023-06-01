@@ -25,6 +25,10 @@ public class Candidate{
     @ColumnDefault("0")
     private int voteCount;
 
+    @Column(name = "is_canceled")
+    @ColumnDefault("false")
+    private Boolean isCanceled;
+
     @OneToOne
     @JoinColumn(
             name = "f_user_id",
@@ -36,7 +40,7 @@ public class Candidate{
 
     @ManyToMany
     @JoinTable(
-            name = "election_candidate",
+            name = "candidatesForElection",
             joinColumns = @JoinColumn(
                     name = "f_candidate_id",
                     referencedColumnName = "candidate_id"

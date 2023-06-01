@@ -18,8 +18,11 @@ public class Election {
     @Column(name = "election_id", nullable = false)
     private Long electionId;
 
-    @Column(name = "election_date")
-    private String electionDate;
+    @Column(name = "election_start_date")
+    private String electionStartDate;
+
+    @Column(name = "election_finish_date")
+    private String electionFinishDate;
 
     @Column(name = "election_name")
     private String electionName;

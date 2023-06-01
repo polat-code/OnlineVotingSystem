@@ -26,10 +26,11 @@ public class Student extends User{
     @OneToOne(mappedBy = "student")
     private Application application;
 
+    // Add Department
 
     @ManyToMany
     @JoinTable(
-            name = "election_student",
+            name = "voters",
             joinColumns = @JoinColumn(
                     name = "f_user_id",
                     referencedColumnName = "user_id"
