@@ -58,5 +58,9 @@ public class ApplicationController {
         return applicationService.approveApplication(applicationId);
     }
 
+    @PostMapping("/reject/{applicationId}")
+    public ResponseEntity<ApiSuccessful> rejectApplication(@PathVariable("applicationId") Long applicationId) throws InvalidApplicationException {
+        return applicationService.rejectApplication(applicationId);
+    }
 
 }

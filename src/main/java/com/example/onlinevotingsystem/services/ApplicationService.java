@@ -171,4 +171,17 @@ public class ApplicationService {
 
 
     }
+
+    public ResponseEntity<ApiSuccessful> rejectApplication(Long applicationId) throws InvalidApplicationException{
+        Application application = applicationRepository.findById(applicationId).orElseThrow(() -> {
+            try {
+                throw new InvalidApplicationException("There is no such an application Id : " + applicationId);
+            } catch (InvalidApplicationException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        application.setIsApproved(false);
+        return new ResponseEntity<>(new ApiSuccessful("Successfully application is rejected",HttpStatus.OK,LocalDateTime.now()),HttpStatus.OK);
+    }
 }
