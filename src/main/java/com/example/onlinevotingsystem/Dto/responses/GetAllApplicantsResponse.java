@@ -20,6 +20,8 @@ public class GetAllApplicantsResponse {
     @NotNull
     private String surname;
     @NotNull
+    private String departmentName;
+    @NotNull
     private String profilePhotoPath;
     @NotNull
     private int grade;

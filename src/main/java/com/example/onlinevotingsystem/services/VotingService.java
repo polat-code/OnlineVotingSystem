@@ -2,6 +2,7 @@ package com.example.onlinevotingsystem.services;
 
 import com.example.onlinevotingsystem.Dto.responses.GetAllApplicantsResponse;
 import com.example.onlinevotingsystem.Dto.responses.VotingValidationResponse;
+import com.example.onlinevotingsystem.models.Candidate;
 import com.example.onlinevotingsystem.models.Election;
 import com.example.onlinevotingsystem.models.Student;
 import com.example.onlinevotingsystem.repository.ElectionRepository;
@@ -38,11 +39,19 @@ public class VotingService {
         Student student = studentRepository.findById(userId).get();
         Long departmentId = student.getDepartment().getDepartmentId();
         Election election = electionRepository.findByDepartmentId(departmentId).orElseThrow();
-        List<Student> students = election.getStudents();
-        /*for(Student stud : students){
-            GetAllApplicantsResponse applicantResponse = new GetAllApplicantsResponse()
+        List<Candidate> candidates = election.getCandidates();
+        for(Candidate candidate : candidates){
+            GetAllApplicantsResponse applicantResponse = new GetAllApplicantsResponse().builder()
+                    .candidateId(candidate.getCandidateId())
+                    .departmentName(candidate.getStudent().getDepartment().getDepartmentName())
+                    .grade(candidate.getStudent().getGrade())
+                    .name(candidate.getStudent().getName())
+                    .surname(candidate.getStudent().getSurname())
+                    .profilePhotoPath(candidate.getStudent().getProfilePhotoPath())
+                    .build();
+            allApplicantsResponses.add(applicantResponse);
         }
-        */
-        return  null;
+
+        return  allApplicantsResponses;
     }
 }
