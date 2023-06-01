@@ -1,7 +1,7 @@
 package com.example.onlinevotingsystem.controllers;
 
 import com.example.onlinevotingsystem.exceptions.AlreadyApplyApplicationException;
-import com.example.onlinevotingsystem.models.errorModels.ApiError;
+import com.example.onlinevotingsystem.models.apiModels.ApiError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
