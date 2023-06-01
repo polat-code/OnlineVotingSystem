@@ -40,7 +40,7 @@ public class Application {
     private Student student;
 
     // Status has 2 value approved or rejected
-    @ColumnDefault("false")
-    private Boolean isApproved;
+    @Column(name = "is_approved")
+    private Boolean isApproved ;
 
 }

@@ -42,9 +42,9 @@ public class ApplicationController {
         applicationService.deleteApplicationById(applicationId);
 
     }
-    /*There is an error */
+
     @PutMapping("")
-    public void updateApplicationDetails(@RequestBody UpdateApplicationRequest updateApplicationRequest) {
+    public void updateApplicationDetails(@RequestBody UpdateApplicationRequest updateApplicationRequest) throws InvalidApplicationException {
         applicationService.updateApplicationDetails(updateApplicationRequest);
     }
 

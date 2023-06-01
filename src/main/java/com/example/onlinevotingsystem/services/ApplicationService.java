@@ -45,6 +45,7 @@ public class ApplicationService {
                 .studentCertificate(createApplication.getStudentCertificate())
                 .political(createApplication.getPolitical())
                 .student(student)
+                .isApproved(false)
                 .build();
         applicationRepository.save(application);
     }
@@ -85,24 +86,26 @@ public class ApplicationService {
 
     }
 
-    /* There is an error here */
-    public void updateApplicationDetails(UpdateApplicationRequest updateApplicationRequest) {
+    public void updateApplicationDetails(UpdateApplicationRequest updateApplicationRequest) throws InvalidApplicationException {
         System.out.println(updateApplicationRequest.getApplicationId());
-        Application application = applicationRepository.findById(updateApplicationRequest.getApplicationId()).orElseThrow(
-                () -> {
-                    try {
-                        throw  new InvalidApplicationException("There is no such application to update");
-                    } catch (InvalidApplicationException e) {
-                        throw new RuntimeException(e);
-                    }
-                });
-
+        Application application = applicationRepository.findById(updateApplicationRequest.getApplicationId()).orElseThrow();
+        if(application == null) {
+            throw new InvalidApplicationException("There is no such an application id : " + updateApplicationRequest.getApplicationId());
+        }
+        System.out.println(updateApplicationRequest);
         // If only someting is missing then old data have to stay same.
-        application.setTranscriptPath(updateApplicationRequest.getTranscriptPath() != null ? updateApplicationRequest.getApplicationRequest() : application.getTranscriptPath());
-        application.setApplicationRequest(updateApplicationRequest.getApplicationRequest() != null ? updateApplicationRequest.getApplicationRequest() : application.getApplicationRequest());
-        application.setStudentCertificate(updateApplicationRequest.getStudentCertificate() != null ? updateApplicationRequest.getStudentCertificate() : application.getStudentCertificate()); ;
-        application.setPolitical(updateApplicationRequest.getPolitical() != null ? updateApplicationRequest.getPolitical() : application.getPolitical());
-
+        if(updateApplicationRequest.getTranscriptPath() != null ) {
+            application.setTranscriptPath(updateApplicationRequest.getApplicationRequest());
+        }
+        if (updateApplicationRequest.getApplicationRequest() != null) {
+            application.setApplicationRequest(updateApplicationRequest.getApplicationRequest());
+        }
+        if(updateApplicationRequest.getStudentCertificate() != null) {
+            application.setStudentCertificate(updateApplicationRequest.getStudentCertificate());
+        }
+        if(updateApplicationRequest.getPolitical() != null) {
+            application.setPolitical(updateApplicationRequest.getPolitical());
+        }
         applicationRepository.save(application);
     }
 
