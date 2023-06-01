@@ -9,6 +9,7 @@ import com.example.onlinevotingsystem.repository.FacultyRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -53,11 +54,12 @@ public class FacultyService {
 
         List<Faculty> faculties = facultyRepository.findAll();
 
-        return faculties.
-                stream()
-                .map(faculty ->
-                        this.modelMapperService.
-                                forResponse().
-                                map(faculties,GetAllFacultyResponse.class)).toList();
+        List<GetAllFacultyResponse> facultyResponses = new ArrayList<>();
+        for(Faculty faculty : faculties) {
+            GetAllFacultyResponse fac = new GetAllFacultyResponse(faculty.getFacultyName());
+            facultyResponses.add(fac);
+        }
+
+        return facultyResponses;
     }
 }
