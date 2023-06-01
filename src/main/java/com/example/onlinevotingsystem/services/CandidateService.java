@@ -23,7 +23,9 @@ public class CandidateService {
     public void createCandidate(CreateCandidateRequest createCandidateRequest) {
         Student student = studentRepository.findById(createCandidateRequest.getStudentId()).orElseThrow();
         Candidate candidate = new Candidate().builder()
-                .student(student).build();
+                .student(student)
+                .isCanceled(false)
+                .build();
 
         candidateRepository.save(candidate);
     }
