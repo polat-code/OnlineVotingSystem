@@ -4,6 +4,8 @@ import com.example.onlinevotingsystem.Dto.requests.CreateApplicationRequest;
 import com.example.onlinevotingsystem.Dto.requests.UpdateApplicationRequest;
 import com.example.onlinevotingsystem.Dto.responses.ApplicationResponse;
 import com.example.onlinevotingsystem.Dto.responses.ApplicationResponseById;
+import com.example.onlinevotingsystem.Dto.responses.ApplicationResponseByUserId;
+import com.example.onlinevotingsystem.exceptions.AlreadyApplyApplicationException;
 import com.example.onlinevotingsystem.exceptions.InvalidApplicationException;
 import com.example.onlinevotingsystem.models.Application;
 import com.example.onlinevotingsystem.models.Student;
@@ -17,15 +19,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@NoArgsConstructor
 @AllArgsConstructor
 public class ApplicationService {
 
     private ApplicationRepository applicationRepository;
 
     private StudentRepository userRepository;
-    public void createAnApplication(CreateApplicationRequest createApplication) {
+    public void createAnApplication(CreateApplicationRequest createApplication) throws AlreadyApplyApplicationException {
         Student student = (Student) userRepository.findById(createApplication.getUserId()).get();
+        Application alreadyApplyApplication = applicationRepository.findApplicationByUserId(createApplication.getUserId());
+        if(alreadyApplyApplication != null) {
+            throw new AlreadyApplyApplicationException("There is already an application with user Id : " + createApplication.getUserId());
+        }
         Application application = new Application().builder()
                 .transcriptPath(createApplication.getTranscriptPath())
                 .applicationRequest(createApplication.getApplicationRequest())
@@ -110,5 +115,27 @@ public class ApplicationService {
                 .studentCertificate(application.getStudentCertificate())
                 .build();
         return applicationResponseById;
+    }
+
+
+    public ApplicationResponseByUserId getApplicationByUserId(Long userId) {
+        Application application = this.applicationRepository.findApplicationByUserId(userId);
+        if(application == null) {
+            return new ApplicationResponseByUserId().builder().isSubmittedApplication(false).build();
+        }
+        ApplicationResponseByUserId applicationResponseByUserId = new ApplicationResponseByUserId().builder()
+                .applicationId(application.getApplicationId())
+                .applicationRequest(application.getApplicationRequest())
+                .transcriptPath(application.getTranscriptPath())
+                .political(application.getPolitical())
+                .studentCertificate(application.getStudentCertificate())
+                .userId(application.getStudent().getUserId())
+                .isSubmittedApplication(true)
+                .build();
+
+        System.out.println(applicationResponseByUserId);
+
+        return applicationResponseByUserId;
+
     }
 }

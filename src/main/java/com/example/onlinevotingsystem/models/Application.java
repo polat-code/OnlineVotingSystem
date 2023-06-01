@@ -29,7 +29,9 @@ public class Application {
     @Column(name = "political_party_membership_inquiry", nullable = false)
     private String political;
 
-    @OneToOne
+    @OneToOne(
+            fetch = FetchType.EAGER
+    )
     @JoinColumn(
             name="f_user_id",
             referencedColumnName = "user_id"

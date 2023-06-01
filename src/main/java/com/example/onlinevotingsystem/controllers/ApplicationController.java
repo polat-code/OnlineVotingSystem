@@ -4,6 +4,8 @@ import com.example.onlinevotingsystem.Dto.requests.CreateApplicationRequest;
 import com.example.onlinevotingsystem.Dto.requests.UpdateApplicationRequest;
 import com.example.onlinevotingsystem.Dto.responses.ApplicationResponse;
 import com.example.onlinevotingsystem.Dto.responses.ApplicationResponseById;
+import com.example.onlinevotingsystem.Dto.responses.ApplicationResponseByUserId;
+import com.example.onlinevotingsystem.exceptions.AlreadyApplyApplicationException;
 import com.example.onlinevotingsystem.models.Application;
 import com.example.onlinevotingsystem.services.ApplicationService;
 import lombok.AllArgsConstructor;
@@ -14,14 +16,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/applications")
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class ApplicationController {
 
     private ApplicationService applicationService;
 
     @PostMapping("")
-    public void createAnApplication(@RequestBody CreateApplicationRequest createApplication) {
+    public void createAnApplication(@RequestBody CreateApplicationRequest createApplication) throws AlreadyApplyApplicationException {
         applicationService.createAnApplication(createApplication);
     }
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("")
     public List<ApplicationResponse> getAllApplications() {
         return applicationService.getAllApplications();
@@ -41,4 +45,8 @@ public class ApplicationController {
         applicationService.updateApplicationDetails(updateApplicationRequest);
     }
 
+    @GetMapping("/user/{userId}")
+    public ApplicationResponseByUserId getApplicationByUserId(@PathVariable("userId") Long userId) {
+        return this.applicationService.getApplicationByUserId(userId);
+    }
 }

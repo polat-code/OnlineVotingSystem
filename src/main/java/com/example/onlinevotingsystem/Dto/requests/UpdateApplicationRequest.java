@@ -10,7 +10,6 @@ import lombok.NonNull;
 @AllArgsConstructor
 public class UpdateApplicationRequest {
 
-    @NonNull
     private Long applicationId;
 
     private String transcriptPath;
