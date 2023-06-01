@@ -26,7 +26,8 @@ public class CandidateService {
                 .student(student)
                 .isCanceled(false)
                 .build();
-        // Add
+        // Write a code to add Candidate Into candidate_for_election table.
+
         candidateRepository.save(candidate);
     }
 

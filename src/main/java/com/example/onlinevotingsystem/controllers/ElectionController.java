@@ -30,6 +30,7 @@ public class ElectionController {
         this.electionService.addCandidateToElectionById(candidateId,electionId);
     }
 
+    // Handle Election Result
 
 
 }
