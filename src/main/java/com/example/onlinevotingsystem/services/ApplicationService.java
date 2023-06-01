@@ -1,6 +1,7 @@
 package com.example.onlinevotingsystem.services;
 
 import com.example.onlinevotingsystem.Dto.requests.CreateApplicationRequest;
+import com.example.onlinevotingsystem.Dto.requests.CreateCandidateRequest;
 import com.example.onlinevotingsystem.Dto.requests.UpdateApplicationRequest;
 import com.example.onlinevotingsystem.Dto.responses.ApplicationResponse;
 import com.example.onlinevotingsystem.Dto.responses.ApplicationResponseById;
@@ -8,13 +9,18 @@ import com.example.onlinevotingsystem.Dto.responses.ApplicationResponseByUserId;
 import com.example.onlinevotingsystem.exceptions.AlreadyApplyApplicationException;
 import com.example.onlinevotingsystem.exceptions.InvalidApplicationException;
 import com.example.onlinevotingsystem.models.Application;
+import com.example.onlinevotingsystem.models.Candidate;
 import com.example.onlinevotingsystem.models.Student;
+import com.example.onlinevotingsystem.models.apiModels.ApiSuccessful;
 import com.example.onlinevotingsystem.repository.ApplicationRepository;
 import com.example.onlinevotingsystem.repository.StudentRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +31,8 @@ public class ApplicationService {
     private ApplicationRepository applicationRepository;
 
     private StudentRepository userRepository;
+
+    private CandidateService candidateService;
     public void createAnApplication(CreateApplicationRequest createApplication) throws AlreadyApplyApplicationException {
         Student student = (Student) userRepository.findById(createApplication.getUserId()).get();
         Application alreadyApplyApplication = applicationRepository.findApplicationByUserId(createApplication.getUserId());
@@ -77,7 +85,9 @@ public class ApplicationService {
 
     }
 
+    /* There is an error here */
     public void updateApplicationDetails(UpdateApplicationRequest updateApplicationRequest) {
+        System.out.println(updateApplicationRequest.getApplicationId());
         Application application = applicationRepository.findById(updateApplicationRequest.getApplicationId()).orElseThrow(
                 () -> {
                     try {
@@ -136,6 +146,29 @@ public class ApplicationService {
         System.out.println(applicationResponseByUserId);
 
         return applicationResponseByUserId;
+
+    }
+
+    public ResponseEntity<ApiSuccessful> approveApplication(Long applicationId) throws InvalidApplicationException {
+
+        Application application = applicationRepository.findById(applicationId).orElseThrow(() -> {
+            try {
+                throw new InvalidApplicationException("There is no such a applicationId : " + applicationId);
+            } catch (InvalidApplicationException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        application.setIsApproved(true);
+        candidateService.createCandidate(new CreateCandidateRequest().builder()
+                        .studentId(application.getStudent().getUserId())
+                        .build());
+
+        applicationRepository.save(application);
+
+        return  new ResponseEntity<>(new ApiSuccessful("Sucessfully approved", HttpStatus.OK, LocalDateTime.now()),HttpStatus.OK);
+
+
 
     }
 }

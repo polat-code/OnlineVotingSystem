@@ -6,9 +6,12 @@ import com.example.onlinevotingsystem.Dto.responses.ApplicationResponse;
 import com.example.onlinevotingsystem.Dto.responses.ApplicationResponseById;
 import com.example.onlinevotingsystem.Dto.responses.ApplicationResponseByUserId;
 import com.example.onlinevotingsystem.exceptions.AlreadyApplyApplicationException;
+import com.example.onlinevotingsystem.exceptions.InvalidApplicationException;
 import com.example.onlinevotingsystem.models.Application;
+import com.example.onlinevotingsystem.models.apiModels.ApiSuccessful;
 import com.example.onlinevotingsystem.services.ApplicationService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,7 +28,6 @@ public class ApplicationController {
     public void createAnApplication(@RequestBody CreateApplicationRequest createApplication) throws AlreadyApplyApplicationException {
         applicationService.createAnApplication(createApplication);
     }
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("")
     public List<ApplicationResponse> getAllApplications() {
         return applicationService.getAllApplications();
@@ -40,6 +42,7 @@ public class ApplicationController {
         applicationService.deleteApplicationById(applicationId);
 
     }
+    /*There is an error */
     @PutMapping("")
     public void updateApplicationDetails(@RequestBody UpdateApplicationRequest updateApplicationRequest) {
         applicationService.updateApplicationDetails(updateApplicationRequest);
@@ -49,4 +52,11 @@ public class ApplicationController {
     public ApplicationResponseByUserId getApplicationByUserId(@PathVariable("userId") Long userId) {
         return this.applicationService.getApplicationByUserId(userId);
     }
+
+    @PostMapping("/approve/{applicationId}")
+    public ResponseEntity<ApiSuccessful> approveApplication(@PathVariable("applicationId") Long applicationId) throws InvalidApplicationException {
+        return applicationService.approveApplication(applicationId);
+    }
+
+
 }
