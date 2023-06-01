@@ -28,6 +28,10 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "profile_photo_path")
+    private String profilePhotoPath;
 
+    @Column(name = "grade")
+    private int grade;
 
 }
