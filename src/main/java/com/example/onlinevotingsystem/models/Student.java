@@ -27,6 +27,12 @@ public class Student extends User{
     private Application application;
 
     // Add Department
+    @ManyToOne
+    @JoinColumn(
+            name = "f_department_id",
+            referencedColumnName = "department_id"
+    )
+    private Department department;
 
     @ManyToMany
     @JoinTable(

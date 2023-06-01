@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,6 +23,8 @@ public class Department {
     @Column(name = "department_name", nullable = false)
     private String departmentName;
 
+    @OneToMany(mappedBy = "department")
+    private List<Student> students;
 
     @ManyToOne
     @JoinColumn(
