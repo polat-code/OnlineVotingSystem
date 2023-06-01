@@ -14,15 +14,16 @@ import javax.validation.constraints.Size;
 public class CreateElectionRequest {
 
     @NotNull
-    private Long departmentId;
-
-    @NotNull
     @NotBlank
     private String electionName;
 
     @NotNull
     @NotBlank
-    private String electionDate;
+    private String electionStartDate;
+
+    @NotNull
+    @NotBlank
+    private String electionFinishDate;
 
 
 

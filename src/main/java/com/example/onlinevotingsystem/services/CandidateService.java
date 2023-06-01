@@ -26,7 +26,7 @@ public class CandidateService {
                 .student(student)
                 .isCanceled(false)
                 .build();
-
+        // Add
         candidateRepository.save(candidate);
     }
 

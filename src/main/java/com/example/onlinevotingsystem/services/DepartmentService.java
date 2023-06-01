@@ -11,6 +11,8 @@ import com.example.onlinevotingsystem.repository.FacultyRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class DepartmentService {
@@ -47,5 +49,10 @@ public class DepartmentService {
             System.out.println(e);
         }
 
+    }
+
+
+    public List<Department> getAllDepartments() {
+        return this.departmentRepository.findAll();
     }
 }

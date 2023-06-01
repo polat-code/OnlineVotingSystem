@@ -3,6 +3,7 @@ package com.example.onlinevotingsystem.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
 public class Election {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

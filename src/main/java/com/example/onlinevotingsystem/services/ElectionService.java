@@ -4,6 +4,7 @@ import com.example.onlinevotingsystem.Dto.requests.CreateElectionRequest;
 import com.example.onlinevotingsystem.Dto.requests.VoteRequest;
 import com.example.onlinevotingsystem.core.utilities.abstracts.ModelMapperService;
 import com.example.onlinevotingsystem.models.Candidate;
+import com.example.onlinevotingsystem.models.Department;
 import com.example.onlinevotingsystem.models.Election;
 import com.example.onlinevotingsystem.models.Student;
 import com.example.onlinevotingsystem.repository.CandidateRepository;
@@ -12,6 +13,7 @@ import com.example.onlinevotingsystem.repository.StudentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -26,12 +28,20 @@ public class ElectionService {
 
     private ModelMapperService modelMapperService;
 
-
-
+    private DepartmentService departmentService;
     public void addElection(CreateElectionRequest createElectionRequest) {
+        // Create Election for each department
+        List<Department> departmentList = departmentService.getAllDepartments();
+        for(Department department: departmentList) {
+            Election election = new Election().builder()
+                    .electionStartDate(createElectionRequest.getElectionStartDate())
+                    .electionName(createElectionRequest.getElectionName())
+                    .electionFinishDate(createElectionRequest.getElectionFinishDate())
+                    .department(department)
+                    .build();
+            this.electionRepository.save(election);
+        }
 
-        Election election = this.modelMapperService.forResponse().map(createElectionRequest,Election.class);
-        this.electionRepository.save(election);
 
     }
 

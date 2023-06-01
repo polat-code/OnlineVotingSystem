@@ -4,6 +4,7 @@ import com.example.onlinevotingsystem.Dto.requests.CreateElectionRequest;
 import com.example.onlinevotingsystem.Dto.requests.VoteRequest;
 import com.example.onlinevotingsystem.services.ElectionService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,6 +14,7 @@ public class ElectionController {
 
     private ElectionService electionService;
 
+    // Add a triger to start election
     @PostMapping("")
     public void addElection(@RequestBody CreateElectionRequest createElectionRequest){
         this.electionService.addElection(createElectionRequest);
@@ -27,5 +29,7 @@ public class ElectionController {
     public void addCandidateToElectionById(@PathVariable Long candidateId,@PathVariable Long electionId){
         this.electionService.addCandidateToElectionById(candidateId,electionId);
     }
+
+
 
 }
