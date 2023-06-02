@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Builder
-public class Election {
+public class    Election {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "election_id", nullable = false)

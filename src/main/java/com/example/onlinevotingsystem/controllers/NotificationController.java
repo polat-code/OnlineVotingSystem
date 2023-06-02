@@ -1,5 +1,4 @@
 package com.example.onlinevotingsystem.controllers;
-
 import com.example.onlinevotingsystem.Dto.requests.CreateNotificationRequest;
 import com.example.onlinevotingsystem.services.NotificationService;
 import lombok.AllArgsConstructor;
@@ -15,5 +14,10 @@ public class NotificationController {
     @PostMapping
     public void createNotification(@RequestBody CreateNotificationRequest createNotificationRequest){
         notificationService.createNotification(createNotificationRequest);
+    }
+
+    @PostMapping("/sendResults")
+    public void createResultNotification(){
+        notificationService.createResultNotification();
     }
 }
