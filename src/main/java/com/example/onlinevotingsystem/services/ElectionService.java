@@ -7,10 +7,10 @@ import com.example.onlinevotingsystem.core.utilities.abstracts.ModelMapperServic
 import com.example.onlinevotingsystem.models.Candidate;
 import com.example.onlinevotingsystem.models.Department;
 import com.example.onlinevotingsystem.models.Election;
-import com.example.onlinevotingsystem.models.Student;
+import com.example.onlinevotingsystem.models.User;
 import com.example.onlinevotingsystem.repository.CandidateRepository;
 import com.example.onlinevotingsystem.repository.ElectionRepository;
-import com.example.onlinevotingsystem.repository.StudentRepository;
+import com.example.onlinevotingsystem.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class ElectionService {
 
     private ElectionRepository electionRepository;
 
-    private StudentRepository studentRepository;
+    private UserRepository userRepository;
 
     private CandidateRepository candidateRepository;
 
@@ -49,11 +49,11 @@ public class ElectionService {
 
         Election election = electionRepository.findById(voteRequest.getElectionId()).get();
         boolean hasVoted = false;
-        Student voterStudent= studentRepository.findById(voteRequest.getUserId()).get();
+        User voterUser = userRepository.findById(voteRequest.getUserId()).get();
 
-        if (!studentRepository.existsById(voterStudent.getUserId())){
-            for (Student student : election.getStudents()){
-                if (Objects.equals(student.getUserId(), voterStudent.getUserId())) {
+        if (!userRepository.existsById(voterUser.getUserId())){
+            for (User user : election.getUsers()){
+                if (Objects.equals(user.getUserId(), voterUser.getUserId())) {
                     hasVoted = true;
                     break;
                 }
@@ -62,11 +62,11 @@ public class ElectionService {
 
 
         if (!hasVoted){
-            election.getStudents().add(voterStudent);
-            voterStudent.getElections().add(election);
+            election.getUsers().add(voterUser);
+            voterUser.getElections().add(election);
 
             electionRepository.save(election);
-            studentRepository.save(voterStudent);
+            userRepository.save(voterUser);
             Candidate candidate = candidateRepository.findById(voteRequest.getCandidateId()).orElseThrow();
             candidate.setVoteCount(candidate.getVoteCount()+1);
             candidateRepository.save(candidate);
@@ -96,7 +96,7 @@ public class ElectionService {
             Map<String,Integer> result = new LinkedHashMap<>();
             Collections.sort(candidates, (c1, c2) -> c2.getVoteCount() - c1.getVoteCount());
             for (Candidate candidate : candidates){
-                String nameSurname = candidate.getStudent().getName() + " " + candidate.getStudent().getSurname();
+                String nameSurname = candidate.getUser().getName() + " " + candidate.getUser().getSurname();
                 Integer voteCount = candidate.getVoteCount();
                 result.put(nameSurname,voteCount);
 

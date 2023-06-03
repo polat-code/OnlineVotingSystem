@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @AllArgsConstructor
@@ -37,7 +36,7 @@ public class Application {
             name="f_user_id",
             referencedColumnName = "user_id"
     )
-    private Student student;
+    private User user;
 
     // Status has 2 value approved or rejected
     @Column(name = "is_approved")

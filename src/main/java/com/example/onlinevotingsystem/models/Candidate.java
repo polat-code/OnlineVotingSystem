@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.util.List;
 
@@ -34,7 +33,7 @@ public class Candidate{
             name = "f_user_id",
             referencedColumnName = "user_id"
     )
-    private Student student;
+    private User user;
 
 
 

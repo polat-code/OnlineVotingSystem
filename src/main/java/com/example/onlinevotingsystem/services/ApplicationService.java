@@ -9,13 +9,11 @@ import com.example.onlinevotingsystem.Dto.responses.ApplicationResponseByUserId;
 import com.example.onlinevotingsystem.exceptions.AlreadyApplyApplicationException;
 import com.example.onlinevotingsystem.exceptions.InvalidApplicationException;
 import com.example.onlinevotingsystem.models.Application;
-import com.example.onlinevotingsystem.models.Candidate;
-import com.example.onlinevotingsystem.models.Student;
+import com.example.onlinevotingsystem.models.User;
 import com.example.onlinevotingsystem.models.apiModels.ApiSuccessful;
 import com.example.onlinevotingsystem.repository.ApplicationRepository;
-import com.example.onlinevotingsystem.repository.StudentRepository;
+import com.example.onlinevotingsystem.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -30,11 +28,11 @@ public class ApplicationService {
 
     private ApplicationRepository applicationRepository;
 
-    private StudentRepository userRepository;
+    private UserRepository userRepository;
 
     private CandidateService candidateService;
     public void createAnApplication(CreateApplicationRequest createApplication) throws AlreadyApplyApplicationException {
-        Student student = (Student) userRepository.findById(createApplication.getUserId()).get();
+        User user = (User) userRepository.findById(createApplication.getUserId()).get();
         Application alreadyApplyApplication = applicationRepository.findApplicationByUserId(createApplication.getUserId());
         if(alreadyApplyApplication != null) {
             throw new AlreadyApplyApplicationException("There is already an application with user Id : " + createApplication.getUserId());
@@ -44,7 +42,7 @@ public class ApplicationService {
                 .applicationRequest(createApplication.getApplicationRequest())
                 .studentCertificate(createApplication.getStudentCertificate())
                 .political(createApplication.getPolitical())
-                .student(student)
+                .user(user)
                 .isApproved(false)
                 .build();
         applicationRepository.save(application);
@@ -61,9 +59,9 @@ public class ApplicationService {
                         .applicationRequest(application.getApplicationRequest())
                         .transcriptPath(application.getTranscriptPath())
                         .political(application.getPolitical())
-                        .studentName(application.getStudent().getName())
-                        .studentSurname(application.getStudent().getSurname())
-                        .studentNumber(application.getStudent().getStudentNumber())
+                        .studentName(application.getUser().getName())
+                        .studentSurname(application.getUser().getSurname())
+                        .studentNumber(application.getUser().getStudentNumber())
                         .build();
                 applicationResponses.add(applicationResponse);
             }
@@ -142,7 +140,7 @@ public class ApplicationService {
                 .transcriptPath(application.getTranscriptPath())
                 .political(application.getPolitical())
                 .studentCertificate(application.getStudentCertificate())
-                .userId(application.getStudent().getUserId())
+                .userId(application.getUser().getUserId())
                 .isSubmittedApplication(true)
                 .build();
 
@@ -164,7 +162,7 @@ public class ApplicationService {
 
         application.setIsApproved(true);
         candidateService.createCandidate(new CreateCandidateRequest().builder()
-                        .studentId(application.getStudent().getUserId())
+                        .studentId(application.getUser().getUserId())
                         .build());
 
         applicationRepository.save(application);

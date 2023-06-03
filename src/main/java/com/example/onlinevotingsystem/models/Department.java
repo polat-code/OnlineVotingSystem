@@ -24,7 +24,7 @@ public class Department {
     private String departmentName;
 
     @OneToMany(mappedBy = "department")
-    private List<Student> students;
+    private List<User> users;
 
     @ManyToOne
     @JoinColumn(

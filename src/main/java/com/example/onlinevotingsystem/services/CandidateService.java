@@ -5,15 +5,14 @@ import com.example.onlinevotingsystem.Dto.responses.CandidateGetResponse;
 import com.example.onlinevotingsystem.models.Candidate;
 import com.example.onlinevotingsystem.models.Department;
 import com.example.onlinevotingsystem.models.Election;
-import com.example.onlinevotingsystem.models.Student;
+import com.example.onlinevotingsystem.models.User;
 import com.example.onlinevotingsystem.repository.CandidateRepository;
 import com.example.onlinevotingsystem.repository.ElectionRepository;
-import com.example.onlinevotingsystem.repository.StudentRepository;
+import com.example.onlinevotingsystem.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -21,7 +20,7 @@ public class CandidateService {
 
     private CandidateRepository candidateRepository;
 
-    private StudentRepository studentRepository;
+    private UserRepository userRepository;
 
     private ElectionRepository electionRepository;
 
@@ -29,9 +28,9 @@ public class CandidateService {
 
 
     public void createCandidate(CreateCandidateRequest createCandidateRequest) {
-        Student student = studentRepository.findById(createCandidateRequest.getStudentId()).orElseThrow();
+        User user = userRepository.findById(createCandidateRequest.getStudentId()).orElseThrow();
         Candidate candidate = new Candidate().builder()
-                .student(student)
+                .user(user)
                 .isCanceled(false)
                 .elections(new ArrayList<>())
                 .build();
@@ -39,7 +38,7 @@ public class CandidateService {
         candidateRepository.save(candidate);
         // Write a code to add Candidate Into candidate_for_election table.
         
-        Election election = findElectionIdByUserId(student);
+        Election election = findElectionIdByUserId(user);
         election.getCandidates().add(candidate);
         candidate.getElections().add(election);
         candidateRepository.save(candidate);
@@ -47,9 +46,9 @@ public class CandidateService {
 
     }
 
-    private Election findElectionIdByUserId(Student student) {
-        Department department = student.getDepartment();
-        Election election = electionRepository.findByDepartmentId(student.getDepartment().getDepartmentId()).get();
+    private Election findElectionIdByUserId(User user) {
+        Department department = user.getDepartment();
+        Election election = electionRepository.findByDepartmentId(user.getDepartment().getDepartmentId()).get();
         return election;
     }
 
@@ -57,9 +56,9 @@ public class CandidateService {
     public CandidateGetResponse getCandidate(Long candidateId){
         Candidate candidate = candidateRepository.findById(candidateId).orElseThrow();
         CandidateGetResponse candidateGetResponse = new CandidateGetResponse().builder()
-                .studentName(candidate.getStudent().getName())
-                .studentSurname(candidate.getStudent().getSurname())
-                .studentNumber(candidate.getStudent().getStudentNumber()).build();
+                .studentName(candidate.getUser().getName())
+                .studentSurname(candidate.getUser().getSurname())
+                .studentNumber(candidate.getUser().getStudentNumber()).build();
 
         return candidateGetResponse;
     }

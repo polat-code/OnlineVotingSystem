@@ -4,11 +4,10 @@ import com.example.onlinevotingsystem.Dto.responses.GetAllApplicantsResponse;
 import com.example.onlinevotingsystem.Dto.responses.VotingValidationResponse;
 import com.example.onlinevotingsystem.models.Candidate;
 import com.example.onlinevotingsystem.models.Election;
-import com.example.onlinevotingsystem.models.Student;
+import com.example.onlinevotingsystem.models.User;
 import com.example.onlinevotingsystem.repository.ElectionRepository;
-import com.example.onlinevotingsystem.repository.StudentRepository;
+import com.example.onlinevotingsystem.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,14 +18,14 @@ import java.util.List;
 public class VotingService {
 
     private ElectionRepository electionRepository;
-    private StudentRepository studentRepository;
+    private UserRepository userRepository;
     public VotingValidationResponse validateUserAlreadyVoteOrNot(Long userId) {
-        Student student = studentRepository.findById(userId).orElseThrow();
-        Long studentDepartmentId = student.getDepartment().getDepartmentId();
+        User user = userRepository.findById(userId).orElseThrow();
+        Long studentDepartmentId = user.getDepartment().getDepartmentId();
         Election election = electionRepository.findByDepartmentId(studentDepartmentId).orElseThrow();
         Long electionIdOfDepartment = election.getElectionId();
-        List<Student> students = election.getStudents();
-        Boolean isAlreadyVoted = students.contains(student);
+        List<User> users = election.getUsers();
+        Boolean isAlreadyVoted = users.contains(user);
 
         VotingValidationResponse response = new VotingValidationResponse().builder().isAlreadyVoted(isAlreadyVoted).build();
         return  response;
@@ -36,18 +35,18 @@ public class VotingService {
     public List<GetAllApplicantsResponse> getAllApplicants(Long userId) {
         List<GetAllApplicantsResponse> allApplicantsResponses = new ArrayList<>();
 
-        Student student = studentRepository.findById(userId).get();
-        Long departmentId = student.getDepartment().getDepartmentId();
+        User user = userRepository.findById(userId).get();
+        Long departmentId = user.getDepartment().getDepartmentId();
         Election election = electionRepository.findByDepartmentId(departmentId).orElseThrow();
         List<Candidate> candidates = election.getCandidates();
         for(Candidate candidate : candidates){
             GetAllApplicantsResponse applicantResponse = new GetAllApplicantsResponse().builder()
                     .candidateId(candidate.getCandidateId())
-                    .departmentName(candidate.getStudent().getDepartment().getDepartmentName())
-                    .grade(candidate.getStudent().getGrade())
-                    .name(candidate.getStudent().getName())
-                    .surname(candidate.getStudent().getSurname())
-                    .profilePhotoPath(candidate.getStudent().getProfilePhotoPath())
+                    .departmentName(candidate.getUser().getDepartment().getDepartmentName())
+                    .grade(candidate.getUser().getGrade())
+                    .name(candidate.getUser().getName())
+                    .surname(candidate.getUser().getSurname())
+                    .profilePhotoPath(candidate.getUser().getProfilePhotoPath())
                     .build();
             allApplicantsResponses.add(applicantResponse);
         }

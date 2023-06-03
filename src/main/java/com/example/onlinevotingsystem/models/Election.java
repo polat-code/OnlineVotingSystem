@@ -38,7 +38,7 @@ public class    Election {
 
 
     @ManyToMany(mappedBy = "elections")
-    private List<Student> students;
+    private List<User> users;
 
     @ManyToMany(mappedBy = "elections")
     private List<Candidate> candidates;

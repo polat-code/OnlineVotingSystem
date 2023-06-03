@@ -6,7 +6,7 @@ import com.example.onlinevotingsystem.models.Election;
 import com.example.onlinevotingsystem.models.Notification;
 import com.example.onlinevotingsystem.repository.ElectionRepository;
 import com.example.onlinevotingsystem.repository.NotificationRepository;
-import com.example.onlinevotingsystem.repository.StudentRepository;
+import com.example.onlinevotingsystem.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -26,7 +26,7 @@ public class NotificationService {
 
     private NotificationRepository notificationRepository;
 
-    private StudentRepository studentRepository;
+    private UserRepository userRepository;
 
     private ElectionRepository electionRepository;
 
@@ -52,7 +52,7 @@ public class NotificationService {
             Map<String,Integer> result = new LinkedHashMap<>();
             Collections.sort(candidates, (c1, c2) -> c2.getVoteCount() - c1.getVoteCount());
             for (Candidate candidate : candidates){
-                String nameSurname = candidate.getStudent().getName() + " " + candidate.getStudent().getSurname();
+                String nameSurname = candidate.getUser().getName() + " " + candidate.getUser().getSurname();
                 Integer voteCount = candidate.getVoteCount();
                 result.put(nameSurname,voteCount);
 
@@ -74,7 +74,7 @@ public class NotificationService {
         simpleMailMessage.setSubject(notification.getTitle());
         simpleMailMessage.setText(notification.getDescription());
 
-        List<String> studentEmails= this.studentRepository.getAllEmails();
+        List<String> studentEmails= this.userRepository.getAllEmails();
         for (String email : studentEmails){
             if (!email.equals("")) {
                 simpleMailMessage.setTo(email);
