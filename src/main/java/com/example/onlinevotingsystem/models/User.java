@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -42,6 +43,8 @@ public class User implements UserDetails {
     @Column(name = "grade")
     private int grade;
 
+    @Column(name = "role")
+    private Role role;
 
     @Column(name = "student_number")
     private String studentNumber;
@@ -73,8 +76,9 @@ public class User implements UserDetails {
 
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+    public Collection<? extends GrantedAuthority> getAuthorities()
+    {
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.example.onlinevotingsystem.config;
 
 
+import com.example.onlinevotingsystem.models.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +29,17 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/auth/**")
                 .permitAll()
+                .requestMatchers("/elections/results")
+                .hasAuthority(Role.STUDENT.name())
+                .requestMatchers("/department/**",
+                        "/faculty/**",
+                        "/elections/**",
+                        "/notifications/**",
+                        "/candidates/**",
+                        "/voting/applicants/**",
+                        "/applications/**"
+                )
+                .hasAuthority(Role.ADMIN.name())
                 .anyRequest()
                 .authenticated()
                 .and()

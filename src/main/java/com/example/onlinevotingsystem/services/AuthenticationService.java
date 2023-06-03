@@ -3,6 +3,7 @@ package com.example.onlinevotingsystem.services;
 import com.example.onlinevotingsystem.Dto.requests.AuthenticationRequest;
 import com.example.onlinevotingsystem.Dto.requests.RegisterRequest;
 import com.example.onlinevotingsystem.Dto.responses.AuthenticationResponse;
+import com.example.onlinevotingsystem.models.Role;
 import com.example.onlinevotingsystem.models.User;
 import com.example.onlinevotingsystem.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -48,6 +49,7 @@ public class AuthenticationService {
         var user = User.builder()
                 .email(registerRequest.getEmail())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
+                .role(Role.STUDENT)
                 .build();
 
         userRepository.save(user);
