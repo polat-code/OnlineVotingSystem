@@ -53,12 +53,12 @@ public class ApplicationController {
         return this.applicationService.getApplicationByUserId(userId);
     }
 
-    @PostMapping("/approve/{applicationId}")
+    @PutMapping("/approve/{applicationId}")
     public ResponseEntity<ApiSuccessful> approveApplication(@PathVariable("applicationId") Long applicationId) throws InvalidApplicationException {
         return applicationService.approveApplication(applicationId);
     }
 
-    @PostMapping("/reject/{applicationId}")
+    @PutMapping("/reject/{applicationId}")
     public ResponseEntity<ApiSuccessful> rejectApplication(@PathVariable("applicationId") Long applicationId) throws InvalidApplicationException {
         return applicationService.rejectApplication(applicationId);
     }

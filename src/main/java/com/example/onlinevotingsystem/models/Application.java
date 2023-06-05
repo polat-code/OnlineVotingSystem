@@ -42,4 +42,7 @@ public class Application {
     @Column(name = "is_approved")
     private Boolean isApproved ;
 
+    @Column(name = "is_reviewed")
+    private Boolean isReviewed;
+
 }

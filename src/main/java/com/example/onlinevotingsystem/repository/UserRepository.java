@@ -7,12 +7,14 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<User,Long>{
-
+public interface UserRepository extends JpaRepository<User,Long> {
 
 
     @Query("SELECT u.email FROM User u")
     List<String> getAllEmails();
 
     Optional<User> findByEmail(String username);
+
+    Optional<Boolean> existsByEmail(String email);
+
 }

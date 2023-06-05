@@ -1,22 +1,18 @@
 package com.example.onlinevotingsystem.services;
 
+import com.example.onlinevotingsystem.Dto.requests.ValidateEmailRequest;
 import com.example.onlinevotingsystem.Dto.requests.AuthenticationRequest;
 import com.example.onlinevotingsystem.Dto.requests.RegisterRequest;
 import com.example.onlinevotingsystem.Dto.responses.AuthenticationResponse;
+import com.example.onlinevotingsystem.Dto.responses.ValidateEmailResponse;
 import com.example.onlinevotingsystem.models.Role;
 import com.example.onlinevotingsystem.models.User;
 import com.example.onlinevotingsystem.repository.UserRepository;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.token.Token;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
@@ -51,7 +47,7 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .role(Role.STUDENT)
                 .build();
-
+        //Exception handling for registered users
         userRepository.save(user);
 
         var jwtToken = jwtService.generateToken(user);
@@ -61,4 +57,18 @@ public class AuthenticationService {
                 .build();
     }
 
+    public ValidateEmailResponse isValid(ValidateEmailRequest validateEmailRequest) {
+
+
+        ValidateEmailResponse validateEmailResponse = new ValidateEmailResponse().builder()
+                .isValid(userRepository
+                        .existsByEmail(validateEmailRequest
+                                .getEmail())
+                        .orElseThrow())
+                .build();
+
+        return validateEmailResponse;
+
+
+    }
 }

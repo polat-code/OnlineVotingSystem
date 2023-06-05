@@ -28,10 +28,6 @@ public class ElectionController {
         this.electionService.voteCandidateByElectionId(voteRequest);
     }
 
-    @PutMapping("/{electionId}/{candidateId}")
-    public void addCandidateToElectionById(@PathVariable Long candidateId,@PathVariable Long electionId){
-        this.electionService.addCandidateToElectionById(candidateId,electionId);
-    }
 
     @GetMapping("/results")
     public List<GetResultResponse> getResults(){
@@ -40,5 +36,9 @@ public class ElectionController {
 
     // Handle Election Result
 
+    @GetMapping("/deneme")
+    public void getTest(){
+        System.out.println("deneme");
+    }
 
 }

@@ -161,8 +161,11 @@ public class ApplicationService {
         });
 
         application.setIsApproved(true);
+        application.setIsReviewed(true);
+
         candidateService.createCandidate(new CreateCandidateRequest().builder()
                         .studentId(application.getUser().getUserId())
+
                         .build());
 
         applicationRepository.save(application);
@@ -183,6 +186,7 @@ public class ApplicationService {
         });
 
         application.setIsApproved(false);
+        application.setIsReviewed(true);
         return new ResponseEntity<>(new ApiSuccessful("Successfully application is rejected",HttpStatus.OK,LocalDateTime.now()),HttpStatus.OK);
     }
 }
