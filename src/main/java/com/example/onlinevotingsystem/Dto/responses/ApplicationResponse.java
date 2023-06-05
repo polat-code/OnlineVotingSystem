@@ -28,4 +28,6 @@ public class ApplicationResponse {
     private String studentSurname;
 
     private String studentNumber;
+    private String departmentName;
+    private int grade;
 }

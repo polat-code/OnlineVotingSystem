@@ -45,6 +45,7 @@ public class ApplicationService {
                 .studentCertificate(createApplication.getStudentCertificate())
                 .political(createApplication.getPolitical())
                 .student(student)
+                .isReview(false)
                 .isApproved(false)
                 .build();
         applicationRepository.save(application);
@@ -64,6 +65,8 @@ public class ApplicationService {
                         .studentName(application.getStudent().getName())
                         .studentSurname(application.getStudent().getSurname())
                         .studentNumber(application.getStudent().getStudentNumber())
+                        .grade(application.getStudent().getGrade())
+                        .departmentName(application.getStudent().getDepartment().getDepartmentName())
                         .build();
                 applicationResponses.add(applicationResponse);
             }
@@ -163,6 +166,7 @@ public class ApplicationService {
         });
 
         application.setIsApproved(true);
+        application.setIsReview(true);
         candidateService.createCandidate(new CreateCandidateRequest().builder()
                         .studentId(application.getStudent().getUserId())
                         .build());
@@ -185,6 +189,7 @@ public class ApplicationService {
         });
 
         application.setIsApproved(false);
+        application.setIsReview(true);
         return new ResponseEntity<>(new ApiSuccessful("Successfully application is rejected",HttpStatus.OK,LocalDateTime.now()),HttpStatus.OK);
     }
 }

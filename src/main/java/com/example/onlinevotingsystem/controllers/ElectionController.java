@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/elections")
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class ElectionController {
 
     private ElectionService electionService;

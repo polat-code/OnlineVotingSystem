@@ -14,6 +14,7 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/voting")
 @AllArgsConstructor
+
 public class VotingController {
 
     private VotingService votingService;
@@ -32,6 +33,8 @@ public class VotingController {
         return this.votingService.getAllApplicants(userId);
     }
     // voting
+
+
 
 
 
