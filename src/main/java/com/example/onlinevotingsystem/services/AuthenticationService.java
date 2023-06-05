@@ -7,6 +7,7 @@ import com.example.onlinevotingsystem.Dto.responses.AuthenticationResponse;
 import com.example.onlinevotingsystem.Dto.responses.ValidateEmailResponse;
 import com.example.onlinevotingsystem.models.Role;
 import com.example.onlinevotingsystem.models.User;
+import com.example.onlinevotingsystem.repository.DepartmentRepository;
 import com.example.onlinevotingsystem.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,12 +20,11 @@ import org.springframework.stereotype.Service;
 public class AuthenticationService {
 
     private final UserRepository userRepository;
-
+    private final DepartmentRepository departmentRepository;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
 
     private final PasswordEncoder passwordEncoder;
-    private UserRepository repository;
 
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -42,9 +42,15 @@ public class AuthenticationService {
 
     public AuthenticationResponse register(RegisterRequest registerRequest) {
 
+
         var user = User.builder()
+                .department(departmentRepository.findByDepartmentName(registerRequest.getDepartmentName()).orElseThrow())
                 .email(registerRequest.getEmail())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
+                .grade(registerRequest.getGrade())
+                .studentNumber(registerRequest.getStudentNumber())
+                .name(registerRequest.getName())
+                .surname(registerRequest.getSurname())
                 .role(Role.STUDENT)
                 .build();
         //Exception handling for registered users
@@ -69,6 +75,7 @@ public class AuthenticationService {
 
         return validateEmailResponse;
 
-
     }
+
+
 }
