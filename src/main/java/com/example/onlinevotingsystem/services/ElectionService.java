@@ -35,7 +35,7 @@ public class ElectionService {
         for(Department department: departmentList) {
             Election election = new Election().builder()
                     .electionStartDate(createElectionRequest.getElectionStartDate())
-                    .electionName(createElectionRequest.getElectionName())
+                    .electionName("Election Name")
                     .electionFinishDate(createElectionRequest.getElectionFinishDate())
                     .department(department)
                     .build();

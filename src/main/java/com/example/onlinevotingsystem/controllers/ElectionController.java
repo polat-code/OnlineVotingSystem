@@ -19,11 +19,12 @@ public class ElectionController {
     private ElectionService electionService;
 
     // Add a triger to start election
+    /*
     @PostMapping("")
     public void addElection(@RequestBody CreateElectionRequest createElectionRequest){
         this.electionService.addElection(createElectionRequest);
     }
-
+    */
     @PutMapping("")
     public void voteCandidateByElectionId(@RequestBody VoteRequest voteRequest){
         this.electionService.voteCandidateByElectionId(voteRequest);

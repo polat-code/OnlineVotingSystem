@@ -1,5 +1,6 @@
 package com.example.onlinevotingsystem.controllers;
 
+import com.example.onlinevotingsystem.Dto.requests.ApplicationDatesRequest;
 import com.example.onlinevotingsystem.Dto.requests.CreateApplicationRequest;
 import com.example.onlinevotingsystem.Dto.requests.UpdateApplicationRequest;
 import com.example.onlinevotingsystem.Dto.responses.ApplicationResponse;
@@ -62,5 +63,6 @@ public class ApplicationController {
     public ResponseEntity<ApiSuccessful> rejectApplication(@PathVariable("applicationId") Long applicationId) throws InvalidApplicationException {
         return applicationService.rejectApplication(applicationId);
     }
+
 
 }

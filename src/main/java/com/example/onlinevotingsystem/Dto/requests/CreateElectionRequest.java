@@ -15,10 +15,6 @@ public class CreateElectionRequest {
 
     @NotNull
     @NotBlank
-    private String electionName;
-
-    @NotNull
-    @NotBlank
     private String electionStartDate;
 
     @NotNull
