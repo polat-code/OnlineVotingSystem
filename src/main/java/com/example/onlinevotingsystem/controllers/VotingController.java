@@ -34,6 +34,10 @@ public class VotingController {
     }
     // voting
 
+    @PutMapping("/user/{user-id}/canidate/{candidate-id}")
+    public ResponseEntity<Object> votingCandidate(@PathVariable("user-id") Long userId, @PathVariable("candidate-id") Long candidateId){
+        return this.votingService.votingCandidate(userId,candidateId);
+    }
 
 
 
