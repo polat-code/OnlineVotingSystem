@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/faculties")
 @AllArgsConstructor
+
 public class FacultyController {
 
     private FacultyService facultyService;
