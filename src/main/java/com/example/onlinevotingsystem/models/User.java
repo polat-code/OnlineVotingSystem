@@ -2,6 +2,7 @@ package com.example.onlinevotingsystem.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,13 +26,15 @@ public class User {
 
     @Column(name = "email")
     private String email;
-    @Column(name = "password")
-    private String password;
+
 
     @Column(name = "profile_photo_path")
     private String profilePhotoPath;
 
     @Column(name = "grade")
     private int grade;
+
+    @Column(name = "is_admin")
+    private Boolean isAdmin;
 
 }

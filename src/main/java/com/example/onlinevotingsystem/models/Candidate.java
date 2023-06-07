@@ -52,6 +52,7 @@ public class Candidate{
     )
     private List<Election> elections;
 
-
+    @OneToOne(mappedBy = "votedFor")
+    private Student votedForStudent;
 
 }
