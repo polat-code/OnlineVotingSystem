@@ -2,6 +2,7 @@ package com.example.onlinevotingsystem.services;
 
 import com.example.onlinevotingsystem.Dto.requests.CreateCandidateRequest;
 import com.example.onlinevotingsystem.Dto.responses.CandidateGetResponse;
+import com.example.onlinevotingsystem.Dto.responses.GetAllCandidateResponse;
 import com.example.onlinevotingsystem.models.Candidate;
 import com.example.onlinevotingsystem.models.Department;
 import com.example.onlinevotingsystem.models.Election;
@@ -62,5 +63,22 @@ public class CandidateService {
                 .studentNumber(candidate.getStudent().getStudentNumber()).build();
 
         return candidateGetResponse;
+    }
+
+    public List<GetAllCandidateResponse> getAllCandidates() {
+        List<GetAllCandidateResponse> candidateResponseList = new ArrayList<>();
+        List<Candidate> candidates = candidateRepository.findAll();
+        System.out.println(candidates);
+        for(Candidate candidate: candidates) {
+            GetAllCandidateResponse candidateResponse = new GetAllCandidateResponse().builder()
+                    .userId(candidate.getStudent().getUserId())
+                    .name(candidate.getStudent().getName())
+                    .surname(candidate.getStudent().getSurname())
+                    .departmentName(candidate.getStudent().getDepartment().getDepartmentName())
+                    .grade(candidate.getStudent().getGrade())
+                    .build();
+            candidateResponseList.add(candidateResponse);
+        }
+        return  candidateResponseList;
     }
 }

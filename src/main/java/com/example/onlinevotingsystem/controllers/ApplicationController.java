@@ -1,6 +1,5 @@
 package com.example.onlinevotingsystem.controllers;
 
-import com.example.onlinevotingsystem.Dto.requests.ApplicationDatesRequest;
 import com.example.onlinevotingsystem.Dto.requests.CreateApplicationRequest;
 import com.example.onlinevotingsystem.Dto.requests.UpdateApplicationRequest;
 import com.example.onlinevotingsystem.Dto.responses.ApplicationResponse;
@@ -8,12 +7,13 @@ import com.example.onlinevotingsystem.Dto.responses.ApplicationResponseById;
 import com.example.onlinevotingsystem.Dto.responses.ApplicationResponseByUserId;
 import com.example.onlinevotingsystem.exceptions.AlreadyApplyApplicationException;
 import com.example.onlinevotingsystem.exceptions.InvalidApplicationException;
-import com.example.onlinevotingsystem.models.Application;
 import com.example.onlinevotingsystem.models.apiModels.ApiSuccessful;
 import com.example.onlinevotingsystem.services.ApplicationService;
 import lombok.AllArgsConstructor;
+import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -63,6 +63,39 @@ public class ApplicationController {
     public ResponseEntity<ApiSuccessful> rejectApplication(@PathVariable("applicationId") Long applicationId) throws InvalidApplicationException {
         return applicationService.rejectApplication(applicationId);
     }
+
+    @PostMapping("/upload/user-id/{userId}")
+    public ResponseEntity<Object> uploadTranscript(@RequestParam("transcript")MultipartFile multipartTranscriptFile,
+                                                   @RequestParam("applicationRequest")MultipartFile multipartApplicationFile,
+                                                   @RequestParam("studentCertificate")MultipartFile multipartStudentCertificateFile,
+                                                   @RequestParam("political")MultipartFile multipartPoliticalFile,
+                                                   @PathVariable("userId") Long userId) {
+        return this.applicationService.uploadFiles(multipartTranscriptFile,multipartApplicationFile,multipartStudentCertificateFile,multipartPoliticalFile,userId);
+    }
+
+    @GetMapping ("/download-transcript/user-id/{userId}")
+    public ResponseEntity<Resource> downloadTranscript(@PathVariable("userId") Long userId){
+        return this.applicationService.downloadTranscript(userId);
+
+    }
+    @GetMapping ("/download-application/user-id/{userId}")
+    public ResponseEntity<Resource> downloadApplication(@PathVariable("userId") Long userId){
+        return this.applicationService.downloadApplication(userId);
+
+    }
+    @GetMapping ("/download-student-certificate/user-id/{userId}")
+    public ResponseEntity<Resource> downloadStudentCertificate(@PathVariable("userId") Long userId){
+        return this.applicationService.downloadStudentCertificate(userId);
+
+    }
+
+    @GetMapping ("w")
+    public ResponseEntity<Resource> downloadPolitical(@PathVariable("userId") Long userId){
+        return this.applicationService.downloadPolitical(userId);
+
+    }
+
+
 
 
 }

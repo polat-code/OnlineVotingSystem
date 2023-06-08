@@ -1,6 +1,5 @@
 package com.example.onlinevotingsystem.services;
 
-import com.example.onlinevotingsystem.Dto.requests.ApplicationDatesRequest;
 import com.example.onlinevotingsystem.Dto.requests.CreateApplicationRequest;
 import com.example.onlinevotingsystem.Dto.requests.CreateCandidateRequest;
 import com.example.onlinevotingsystem.Dto.requests.UpdateApplicationRequest;
@@ -10,18 +9,25 @@ import com.example.onlinevotingsystem.Dto.responses.ApplicationResponseByUserId;
 import com.example.onlinevotingsystem.exceptions.AlreadyApplyApplicationException;
 import com.example.onlinevotingsystem.exceptions.InvalidApplicationException;
 import com.example.onlinevotingsystem.models.Application;
-import com.example.onlinevotingsystem.models.ApplicationDates;
-import com.example.onlinevotingsystem.models.Candidate;
 import com.example.onlinevotingsystem.models.Student;
 import com.example.onlinevotingsystem.models.apiModels.ApiSuccessful;
 import com.example.onlinevotingsystem.repository.ApplicationRepository;
 import com.example.onlinevotingsystem.repository.StudentRepository;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -196,4 +202,192 @@ public class ApplicationService {
     }
 
 
+    public ResponseEntity<Object> uploadFiles(MultipartFile multipartTranscriptFile,
+                                              MultipartFile multipartApplicationFile,
+                                              MultipartFile multipartStudentCertificateFile,
+                                              MultipartFile multipartPoliticalFile,
+                                              Long userId) {
+
+        ResponseEntity<Object> respTranscript = uploadTranscript(multipartTranscriptFile,userId);
+        ResponseEntity<Object> respApplication = uploadApplicationRequestFile(multipartApplicationFile,userId);
+        ResponseEntity<Object> respCertificate = uploadStudentCertificate(multipartStudentCertificateFile,userId);
+        ResponseEntity<Object> respPolitical = uploadPoliticalFile(multipartPoliticalFile,userId);
+
+        if(respTranscript.getStatusCode().value() == 200
+                && respApplication.getStatusCode().value() == 200
+                && respCertificate.getStatusCode().value() == 200
+                && respPolitical.getStatusCode().value() == 200) {
+            return new ResponseEntity<>("All files have been uploaded",HttpStatus.OK);
+        }else if (respTranscript.getStatusCode().value() != 200){
+            return respTranscript;
+        }else if(respApplication.getStatusCode().value() != 200) {
+            return respApplication;
+        }else if(respPolitical.getStatusCode().value() != 200){
+            return respPolitical;
+        }else if (respCertificate.getStatusCode().value() != 200){
+            return respCertificate;
+        }else {
+            return new ResponseEntity<>("There is a undefined error!",HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
+    private ResponseEntity<Object> uploadPoliticalFile(MultipartFile multipartPoliticalFile, Long userId) {
+        Path path = Paths.get("./images/politicals/userId-" + userId + ".pdf") ;
+
+        try {
+            Files.createDirectories(path);
+            Files.copy(multipartPoliticalFile.getInputStream(),path, StandardCopyOption.REPLACE_EXISTING);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e) {
+            System.out.println(e);
+            return  new ResponseEntity<>("student Certificate : " + e.getMessage(),HttpStatus.NOT_ACCEPTABLE);
+        }
+
+    }
+
+    private ResponseEntity<Object> uploadStudentCertificate(MultipartFile multipartStudentCertificateFile, Long userId) {
+        Path path = Paths.get("./images/studentCertificates/userId-" + userId + ".pdf") ;
+
+        try {
+            Files.createDirectories(path);
+            Files.copy(multipartStudentCertificateFile.getInputStream(),path, StandardCopyOption.REPLACE_EXISTING);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e) {
+            System.out.println(e);
+            return  new ResponseEntity<>("student Certificate : " + e.getMessage(),HttpStatus.NOT_ACCEPTABLE);
+        }
+
+    }
+
+    private ResponseEntity<Object> uploadApplicationRequestFile(MultipartFile multipartApplicationFile, Long userId) {
+        Path path = Paths.get("./images/applicationRequests/userId-" + userId + ".pdf") ;
+
+        try {
+            Files.createDirectories(path);
+            Files.copy(multipartApplicationFile.getInputStream(),path, StandardCopyOption.REPLACE_EXISTING);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e) {
+            System.out.println(e);
+            return  new ResponseEntity<>("application request :" + e.getMessage(),HttpStatus.NOT_ACCEPTABLE);
+        }
+
+    }
+
+    private ResponseEntity<Object> uploadTranscript(MultipartFile multipartTranscriptFile,Long userId) {
+        Path path = Paths.get("./images/transcripts/userId-" + userId + ".pdf") ;
+
+        try {
+            Files.createDirectories(path);
+            Files.copy(multipartTranscriptFile.getInputStream(),path, StandardCopyOption.REPLACE_EXISTING);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e) {
+            System.out.println(e);
+            return  new ResponseEntity<>("transcript : " + e.getMessage(),HttpStatus.NOT_ACCEPTABLE);
+        }
+
+    }
+
+    public ResponseEntity<Resource> downloadTranscript(Long userId) {
+        File file = new File("./images/transcripts/userId-" + userId + ".pdf");
+
+        HttpHeaders header = new HttpHeaders();
+        header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=transcript.pdf");
+        header.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        header.add("Pragma", "no-cache");
+        header.add("Expires", "0");
+
+        Path path = Paths.get(file.getAbsolutePath());
+        ByteArrayResource resource  = null;
+        try{
+            resource = new ByteArrayResource(Files.readAllBytes(path));
+        }catch (Exception e) {
+            System.out.println(e);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+
+        return ResponseEntity.ok()
+                .headers(header)
+                .contentLength(file.length())
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(resource);
+    }
+
+    public ResponseEntity<Resource> downloadApplication(Long userId) {
+        File file = new File("./images/applicationRequests/userId-" + userId + ".pdf");
+
+        HttpHeaders header = new HttpHeaders();
+        header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=applicationRequest.pdf");
+        header.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        header.add("Pragma", "no-cache");
+        header.add("Expires", "0");
+
+        Path path = Paths.get(file.getAbsolutePath());
+        ByteArrayResource resource  = null;
+        try{
+            resource = new ByteArrayResource(Files.readAllBytes(path));
+        }catch (Exception e) {
+            System.out.println(e);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+
+        return ResponseEntity.ok()
+                .headers(header)
+                .contentLength(file.length())
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(resource);
+    }
+
+    public ResponseEntity<Resource> downloadStudentCertificate(Long userId) {
+        File file = new File("./images/studentCertificates/userId-" + userId + ".pdf");
+
+        HttpHeaders header = new HttpHeaders();
+        header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=studentCertificate.pdf");
+        header.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        header.add("Pragma", "no-cache");
+        header.add("Expires", "0");
+
+        Path path = Paths.get(file.getAbsolutePath());
+        ByteArrayResource resource  = null;
+        try{
+            resource = new ByteArrayResource(Files.readAllBytes(path));
+        }catch (Exception e) {
+            System.out.println(e);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+
+        return ResponseEntity.ok()
+                .headers(header)
+                .contentLength(file.length())
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(resource);
+    }
+
+    public ResponseEntity<Resource> downloadPolitical(Long userId) {
+        File file = new File("./images/politicals/userId-" + userId + ".pdf");
+
+        HttpHeaders header = new HttpHeaders();
+        header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=political.pdf");
+        header.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        header.add("Pragma", "no-cache");
+        header.add("Expires", "0");
+
+        Path path = Paths.get(file.getAbsolutePath());
+        ByteArrayResource resource  = null;
+        try{
+            resource = new ByteArrayResource(Files.readAllBytes(path));
+        }catch (Exception e) {
+            System.out.println(e);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+
+        return ResponseEntity.ok()
+                .headers(header)
+                .contentLength(file.length())
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(resource);
+    }
 }
