@@ -12,4 +12,5 @@ public interface ApplicationRepository  extends JpaRepository<Application,Long> 
    nativeQuery = true)
     Application findApplicationByUserId(Long userId);
 
+
 }

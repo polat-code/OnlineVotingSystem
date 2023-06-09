@@ -34,12 +34,16 @@ public class ApplicationController {
         return applicationService.getAllApplications();
     }
     @GetMapping("/{applicationId}")
-    public ApplicationResponseById getApplicationById(@PathVariable Long applicationId) {
+    public ApplicationResponseById getApplicationById(@PathVariable("applicationId") Long applicationId) {
         return applicationService.getApplicationById(applicationId);
+    }
+    @GetMapping("/user-id/{userId}")
+    public ResponseEntity<Object> isAlreadyApplied(@PathVariable("userId") Long userId){
+        return this.applicationService.isAlreadyApplied(userId);
     }
 
     @DeleteMapping("/{applicationId}")
-    public void deleteApplicationById(@PathVariable Long applicationId) {
+    public void deleteApplicationById(@PathVariable("applicationId") Long applicationId) {
         applicationService.deleteApplicationById(applicationId);
 
     }

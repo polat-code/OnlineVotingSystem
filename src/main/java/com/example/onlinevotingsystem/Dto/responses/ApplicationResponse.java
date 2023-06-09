@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 public class ApplicationResponse {
 
     private Long applicationId;
+    private Long userId;
     private String transcriptPath;
     private String applicationRequest;
 

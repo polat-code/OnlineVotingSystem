@@ -65,6 +65,7 @@ public class ApplicationService {
         if(applications.size() > 0) {
             for(Application application : applications) {
                 ApplicationResponse applicationResponse = new ApplicationResponse().builder()
+                        .userId(application.getStudent().getUserId())
                         .applicationId(application.getApplicationId())
                         .studentCertificate(application.getStudentCertificate())
                         .applicationRequest(application.getApplicationRequest())
@@ -212,6 +213,8 @@ public class ApplicationService {
         ResponseEntity<Object> respApplication = uploadApplicationRequestFile(multipartApplicationFile,userId);
         ResponseEntity<Object> respCertificate = uploadStudentCertificate(multipartStudentCertificateFile,userId);
         ResponseEntity<Object> respPolitical = uploadPoliticalFile(multipartPoliticalFile,userId);
+
+
 
         if(respTranscript.getStatusCode().value() == 200
                 && respApplication.getStatusCode().value() == 200
@@ -389,5 +392,13 @@ public class ApplicationService {
                 .contentLength(file.length())
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(resource);
+    }
+
+    public ResponseEntity<Object> isAlreadyApplied(Long userId) {
+        Application application = applicationRepository.findApplicationByUserId(userId);
+        if(application == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
