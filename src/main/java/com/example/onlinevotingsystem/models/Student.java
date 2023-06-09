@@ -52,7 +52,7 @@ public class Student extends User{
 
     private Boolean isVoted;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(
             name = "f_candidate_id",
             referencedColumnName = "candidate_id"

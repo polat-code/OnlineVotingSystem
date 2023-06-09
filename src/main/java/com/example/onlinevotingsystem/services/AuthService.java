@@ -1,9 +1,6 @@
 package com.example.onlinevotingsystem.services;
 
-import com.example.onlinevotingsystem.Dto.requests.IsValidEmailRequest;
-import com.example.onlinevotingsystem.Dto.requests.LogInUserRequest;
-import com.example.onlinevotingsystem.Dto.requests.LoginRequest;
-import com.example.onlinevotingsystem.Dto.requests.RegistrationRequest;
+import com.example.onlinevotingsystem.Dto.requests.*;
 import com.example.onlinevotingsystem.Dto.responses.LogInUserResponse;
 import com.example.onlinevotingsystem.models.Department;
 import com.example.onlinevotingsystem.models.Student;
@@ -70,5 +67,20 @@ public class AuthService {
                 .build();
 
         return  logInUserResponse;
+    }
+
+    public ResponseEntity<Object> saveUser(SaveUserRequest saveUserRequest) {
+        Student student = new Student();
+        student.setName(saveUserRequest.getName());
+        student.setSurname(saveUserRequest.getSurname());
+        student.setEmail(saveUserRequest.getEmail());
+        student.setIsAdmin(false);
+        student.setDepartment(departmentRepository.findByDepartmentName(saveUserRequest.getDepartmentName()));
+        student.setIsVoted(false);
+        student.setGrade(saveUserRequest.getGrade());
+        student.setStudentNumber(saveUserRequest.getStudentNumber());
+
+        studentRepository.save(student);
+        return  new ResponseEntity<>(HttpStatus.OK);
     }
 }

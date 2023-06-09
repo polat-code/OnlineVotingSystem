@@ -52,7 +52,8 @@ public class Candidate{
     )
     private List<Election> elections;
 
-    @OneToOne(mappedBy = "votedFor")
-    private Student votedForStudent;
+    @OneToMany(mappedBy = "votedFor")
+    private List<Student> votedForStudent;
+
 
 }

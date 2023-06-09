@@ -219,13 +219,13 @@ public class ApplicationService {
                 && respPolitical.getStatusCode().value() == 200) {
             return new ResponseEntity<>("All files have been uploaded",HttpStatus.OK);
         }else if (respTranscript.getStatusCode().value() != 200){
-            return respTranscript;
+            return  new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }else if(respApplication.getStatusCode().value() != 200) {
-            return respApplication;
+            return  new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }else if(respPolitical.getStatusCode().value() != 200){
-            return respPolitical;
+            return  new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }else if (respCertificate.getStatusCode().value() != 200){
-            return respCertificate;
+            return  new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }else {
             return new ResponseEntity<>("There is a undefined error!",HttpStatus.NOT_ACCEPTABLE);
         }
@@ -240,7 +240,7 @@ public class ApplicationService {
             return new ResponseEntity<>(HttpStatus.OK);
         }catch (Exception e) {
             System.out.println(e);
-            return  new ResponseEntity<>("student Certificate : " + e.getMessage(),HttpStatus.NOT_ACCEPTABLE);
+            return  new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
 
     }
@@ -254,7 +254,7 @@ public class ApplicationService {
             return new ResponseEntity<>(HttpStatus.OK);
         }catch (Exception e) {
             System.out.println(e);
-            return  new ResponseEntity<>("student Certificate : " + e.getMessage(),HttpStatus.NOT_ACCEPTABLE);
+            return  new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
 
     }
@@ -268,7 +268,7 @@ public class ApplicationService {
             return new ResponseEntity<>(HttpStatus.OK);
         }catch (Exception e) {
             System.out.println(e);
-            return  new ResponseEntity<>("application request :" + e.getMessage(),HttpStatus.NOT_ACCEPTABLE);
+            return  new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
 
     }
@@ -282,7 +282,7 @@ public class ApplicationService {
             return new ResponseEntity<>(HttpStatus.OK);
         }catch (Exception e) {
             System.out.println(e);
-            return  new ResponseEntity<>("transcript : " + e.getMessage(),HttpStatus.NOT_ACCEPTABLE);
+            return  new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
 
     }

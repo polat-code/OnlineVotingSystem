@@ -3,6 +3,7 @@ package com.example.onlinevotingsystem.controllers;
 import com.example.onlinevotingsystem.Dto.requests.IsValidEmailRequest;
 import com.example.onlinevotingsystem.Dto.requests.LogInUserRequest;
 import com.example.onlinevotingsystem.Dto.requests.RegistrationRequest;
+import com.example.onlinevotingsystem.Dto.requests.SaveUserRequest;
 import com.example.onlinevotingsystem.Dto.responses.LogInUserResponse;
 import com.example.onlinevotingsystem.services.AuthService;
 import lombok.AllArgsConstructor;
@@ -31,6 +32,11 @@ public class AuthController {
     @PostMapping("/log-in")
     public LogInUserResponse getUserByEmail(@RequestBody LogInUserRequest logInUserRequest) {
         return  this.authService.getUserByEmail(logInUserRequest);
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity<Object> saveUser(@RequestBody SaveUserRequest saveUserRequest) {
+        return this.authService.saveUser(saveUserRequest);
     }
 
 

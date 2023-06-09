@@ -89,7 +89,7 @@ public class ApplicationController {
 
     }
 
-    @GetMapping ("w")
+    @GetMapping ("/download-politicial/user-id/{userId}")
     public ResponseEntity<Resource> downloadPolitical(@PathVariable("userId") Long userId){
         return this.applicationService.downloadPolitical(userId);
 
