@@ -34,7 +34,6 @@ public class CandidateService {
         Candidate candidate = new Candidate().builder()
                 .student(student)
                 .isCanceled(false)
-                .elections(new ArrayList<>())
                 .build();
 
         candidateRepository.save(candidate);
@@ -68,7 +67,7 @@ public class CandidateService {
     public List<GetAllCandidateResponse> getAllCandidates() {
         List<GetAllCandidateResponse> candidateResponseList = new ArrayList<>();
         List<Candidate> candidates = candidateRepository.findAll();
-        System.out.println(candidates);
+
         for(Candidate candidate: candidates) {
             GetAllCandidateResponse candidateResponse = new GetAllCandidateResponse().builder()
                     .userId(candidate.getStudent().getUserId())

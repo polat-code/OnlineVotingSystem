@@ -4,16 +4,18 @@ import com.example.onlinevotingsystem.Dto.requests.CreateElectionRequest;
 import com.example.onlinevotingsystem.Dto.requests.VoteRequest;
 import com.example.onlinevotingsystem.Dto.responses.GetResultResponse;
 import com.example.onlinevotingsystem.core.utilities.abstracts.ModelMapperService;
-import com.example.onlinevotingsystem.models.Candidate;
-import com.example.onlinevotingsystem.models.Department;
-import com.example.onlinevotingsystem.models.Election;
-import com.example.onlinevotingsystem.models.Student;
+import com.example.onlinevotingsystem.models.*;
 import com.example.onlinevotingsystem.repository.CandidateRepository;
+import com.example.onlinevotingsystem.repository.ElectionDateRepository;
 import com.example.onlinevotingsystem.repository.ElectionRepository;
 import com.example.onlinevotingsystem.repository.StudentRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -27,11 +29,15 @@ public class ElectionService {
     private CandidateRepository candidateRepository;
 
     private ModelMapperService modelMapperService;
+    private ElectionDateRepository electionDateRepository;
 
     private DepartmentService departmentService;
-    public void addElection(CreateElectionRequest createElectionRequest) {
+    public ResponseEntity<Object> addElection(CreateElectionRequest createElectionRequest) {
         // Create Election for each department
         List<Department> departmentList = departmentService.getAllDepartments();
+        if(departmentList == null) {
+            return new ResponseEntity<>(HttpStatus.HTTP_VERSION_NOT_SUPPORTED);
+        }
         for(Department department: departmentList) {
             Election election = new Election().builder()
                     .electionStartDate(createElectionRequest.getElectionStartDate())
@@ -41,6 +47,14 @@ public class ElectionService {
                     .build();
             this.electionRepository.save(election);
         }
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+        ElectionDate electionDate = new ElectionDate().builder()
+                .electionStartDate(createElectionRequest.getElectionStartDate())
+                .electionFinishDate(createElectionRequest.getElectionFinishDate())
+                .createdAt(LocalDateTime.now().toString())
+                .build();
+        this.electionDateRepository.save(electionDate);
+        return new ResponseEntity<>(HttpStatus.OK);
 
 
     }
