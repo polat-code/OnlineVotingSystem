@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/announcements")
 @AllArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://votingsystem.herokuapp.com")
 public class AnnouncementController {
 
     private AnnouncementService announcementService;

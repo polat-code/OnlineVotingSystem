@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/notifications")
 @AllArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://votingsystem.herokuapp.com")
 public class NotificationController {
 
     private NotificationService notificationService;

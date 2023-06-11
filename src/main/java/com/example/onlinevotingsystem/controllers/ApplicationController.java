@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/applications")
 @AllArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://votingsystem.herokuapp.com")
 public class ApplicationController {
 
     private ApplicationService applicationService;

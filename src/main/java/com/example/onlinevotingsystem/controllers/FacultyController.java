@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/faculties")
 @AllArgsConstructor
+@CrossOrigin(origins = "https://votingsystem.herokuapp.com")
 
 public class FacultyController {
 
