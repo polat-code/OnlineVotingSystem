@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ApplicationRepository  extends JpaRepository<Application,Long> {
 
-   @Query(value = "SELECT * FROM Application where f_user_id = ?1",
+   @Query(value = "SELECT * FROM application where f_user_id = ?1",
    nativeQuery = true)
     Application findApplicationByUserId(Long userId);
 
