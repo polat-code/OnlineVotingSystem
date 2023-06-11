@@ -36,7 +36,6 @@ public class CandidateService {
                 .isCanceled(false)
                 .build();
 
-        candidateRepository.save(candidate);
         // Write a code to add Candidate Into candidate_for_election table.
         
         Election election = findElectionIdByUserId(student);
