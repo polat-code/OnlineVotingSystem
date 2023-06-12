@@ -134,6 +134,8 @@ public class ApplicationService {
 
         ApplicationResponseById applicationResponseById = new ApplicationResponseById().builder()
                 .applicationId(application.getApplicationId())
+                .is_approved(application.getIsApproved())
+                .is_reviewed(application.getIsReview())
                 .applicationRequest(application.getApplicationRequest())
                 .transcriptPath(application.getTranscriptPath())
                 .political(application.getPolitical())
@@ -199,6 +201,7 @@ public class ApplicationService {
 
         application.setIsApproved(false);
         application.setIsReview(true);
+        applicationRepository.save(application);
         return new ResponseEntity<>(new ApiSuccessful("Successfully application is rejected",HttpStatus.OK,LocalDateTime.now()),HttpStatus.OK);
     }
 

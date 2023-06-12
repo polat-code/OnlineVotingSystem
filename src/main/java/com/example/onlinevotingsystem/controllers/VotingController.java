@@ -15,6 +15,7 @@ import java.util.Objects;
 @RequestMapping("/voting")
 @AllArgsConstructor
 @CrossOrigin(origins = "https://votingsystem.herokuapp.com")
+//@CrossOrigin(origins =  "http://localhost:3000")
 public class VotingController {
 
     private VotingService votingService;

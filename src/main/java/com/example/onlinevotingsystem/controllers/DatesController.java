@@ -18,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/dates")
 @CrossOrigin(origins = "https://votingsystem.herokuapp.com")
+//@CrossOrigin(origins =  "http://localhost:3000")
 public class DatesController {
 
     private DatesService datesService;

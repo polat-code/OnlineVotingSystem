@@ -14,6 +14,7 @@ import java.util.List;
 @RequestMapping("/elections")
 @AllArgsConstructor
 @CrossOrigin(origins = "https://votingsystem.herokuapp.com")
+//@CrossOrigin(origins =  "http://localhost:3000")
 public class ElectionController {
 
     private ElectionService electionService;

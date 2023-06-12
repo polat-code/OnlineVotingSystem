@@ -11,6 +11,8 @@ import com.example.onlinevotingsystem.repository.CandidateRepository;
 import com.example.onlinevotingsystem.repository.ElectionRepository;
 import com.example.onlinevotingsystem.repository.StudentRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -35,20 +37,31 @@ public class CandidateService {
                 .student(student)
                 .isCanceled(false)
                 .build();
+        candidateRepository.save(candidate);
 
         // Write a code to add Candidate Into candidate_for_election table.
-        
+
         Election election = findElectionIdByUserId(student);
+        if(election.getCandidates() == null){
+            election.setCandidates(new ArrayList<>());
+        }
         election.getCandidates().add(candidate);
-        candidate.getElections().add(election);
-        candidateRepository.save(candidate);
+
+
+        Candidate candidateFromDB = candidateRepository.findById(candidate.getCandidateId()).get();
+        if(candidateFromDB.getElections() == null){
+            candidateFromDB.setElections(new ArrayList<>());
+        }
+        candidateFromDB.getElections().add(election);
         electionRepository.save(election);
+        candidateRepository.save(candidateFromDB);
+
 
     }
 
     private Election findElectionIdByUserId(Student student) {
         Department department = student.getDepartment();
-        Election election = electionRepository.findByDepartmentId(student.getDepartment().getDepartmentId()).get();
+        Election election = electionRepository.findByDepartmentId(department.getDepartmentId()).get();
         return election;
     }
 
@@ -78,5 +91,14 @@ public class CandidateService {
             candidateResponseList.add(candidateResponse);
         }
         return  candidateResponseList;
+    }
+
+    public ResponseEntity<Object> isCandidateOrNot(Long userId) {
+
+        Candidate candidate = candidateRepository.findByUserId(userId);
+        if(candidate == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

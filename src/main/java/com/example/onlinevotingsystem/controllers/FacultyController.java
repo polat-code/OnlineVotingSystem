@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping("/faculties")
 @AllArgsConstructor
 @CrossOrigin(origins = "https://votingsystem.herokuapp.com")
-
+//@CrossOrigin(origins =  "http://localhost:3000")
 public class FacultyController {
 
     private FacultyService facultyService;

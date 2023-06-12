@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 @RequestMapping("/auth")
 @CrossOrigin(origins = "https://votingsystem.herokuapp.com")
+//@CrossOrigin(origins =  "http://localhost:3000")
 public class AuthController {
     private AuthService authService;
 

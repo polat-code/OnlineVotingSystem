@@ -5,6 +5,7 @@ import com.example.onlinevotingsystem.Dto.responses.AnnouncementByIdResponse;
 import com.example.onlinevotingsystem.Dto.responses.AnnouncementResponse;
 import com.example.onlinevotingsystem.services.AnnouncementService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,11 @@ import java.util.List;
 @RequestMapping("/announcements")
 @AllArgsConstructor
 @CrossOrigin(origins = "https://votingsystem.herokuapp.com")
+//@CrossOrigin(origins =  "http://localhost:3000")
 public class AnnouncementController {
+
+
+
 
     private AnnouncementService announcementService;
     @PostMapping()

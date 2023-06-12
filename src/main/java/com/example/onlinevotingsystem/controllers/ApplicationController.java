@@ -21,6 +21,7 @@ import java.util.List;
 @RequestMapping("/applications")
 @AllArgsConstructor
 @CrossOrigin(origins = "https://votingsystem.herokuapp.com")
+//@CrossOrigin(origins =  "http://localhost:3000")
 public class ApplicationController {
 
     private ApplicationService applicationService;
@@ -63,6 +64,8 @@ public class ApplicationController {
         return applicationService.approveApplication(applicationId);
     }
 
+
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/reject/{applicationId}")
     public ResponseEntity<ApiSuccessful> rejectApplication(@PathVariable("applicationId") Long applicationId) throws InvalidApplicationException {
         return applicationService.rejectApplication(applicationId);
