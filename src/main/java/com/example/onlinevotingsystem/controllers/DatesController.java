@@ -44,4 +44,13 @@ public class DatesController {
     public List<ApplicationDateResponse> getAllApplicationDates() {
         return  this.datesService.getAllApplicationDates();
     }
+
+    @GetMapping("/application/active-date")
+    public ResponseEntity<Object>  isSetApplicationBefore() {
+        return datesService.isActiveApplication();
+    }
+    @GetMapping("/election/active-date")
+    public ResponseEntity<Object>  isSetElectionBefore() {
+        return datesService.isActiveElection();
+    }
 }

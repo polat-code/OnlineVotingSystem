@@ -21,5 +21,6 @@ public class ElectionDate {
     private String electionStartDate;
     private String electionFinishDate;
     private String createdAt;
+    private Boolean isActive;
 
 }

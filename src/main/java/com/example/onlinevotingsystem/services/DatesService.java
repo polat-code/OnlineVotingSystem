@@ -31,6 +31,7 @@ public class DatesService {
                 .applicationStartDate(datesRequest.getApplicationStartDate())
                 .applicationFinishDate(datesRequest.getApplicationFinishDate())
                 .createdAt(LocalDateTime.now().toString())
+                .isActive(true)
                 .build();
         applicationDatesRepository.save(applicationDates);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -70,5 +71,32 @@ public class DatesService {
             }
             return applicationDateResponse;
         }
+    }
+
+    public ResponseEntity<Object> isActiveApplication() {
+
+        List<ApplicationDates> list = applicationDatesRepository.findAll();
+        if(list.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        for(ApplicationDates applicationDate : list) {
+            if(applicationDate.getIsActive() == true) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    public ResponseEntity<Object> isActiveElection() {
+        List<ElectionDate> list = electionDateRepository.findAll();
+        if(list.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        for(ElectionDate electionDate : list) {
+            if(electionDate.getIsActive() == true) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

@@ -65,7 +65,6 @@ public class ApplicationController {
     }
 
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/reject/{applicationId}")
     public ResponseEntity<ApiSuccessful> rejectApplication(@PathVariable("applicationId") Long applicationId) throws InvalidApplicationException {
         return applicationService.rejectApplication(applicationId);

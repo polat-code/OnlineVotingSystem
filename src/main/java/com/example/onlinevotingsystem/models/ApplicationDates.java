@@ -22,5 +22,6 @@ public class ApplicationDates {
     private String applicationStartDate;
     private String applicationFinishDate;
     private String createdAt;
+    private Boolean isActive;
 
 }
