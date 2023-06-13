@@ -52,6 +52,7 @@ public class Student extends User{
 
     private Boolean isVoted;
 
+    /*
     @ManyToOne
     @JoinColumn(
             name = "f_candidate_id",
@@ -59,6 +60,6 @@ public class Student extends User{
     )
     private Candidate votedFor;
 
-
+    */
 
 }
