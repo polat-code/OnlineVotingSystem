@@ -68,7 +68,6 @@ public class VotingService {
             new ResponseEntity<>("There is no such a candidateId : " + candidateId,HttpStatus.NOT_ACCEPTABLE);
         }
         student.get().setIsVoted(true);
-        student.get().setVotedFor(candidate.get());
         List<Election> elections = student.get().getElections();
 
 
