@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 public class ApplicationResponseById {
 
     private Long applicationId;
+    private Boolean is_approved;
+    private Boolean is_reviewed;
     private String transcriptPath;
     private String applicationRequest;
 

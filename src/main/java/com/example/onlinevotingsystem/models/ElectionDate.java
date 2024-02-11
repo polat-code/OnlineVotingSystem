@@ -6,21 +6,20 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
-@Entity
 @Data
-@AllArgsConstructor
+@Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-@Table(name = "Application_Dates")
-public class ApplicationDates {
+@Table(name = "election_dates")
+public class ElectionDate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long applicationDateId;
-    private String applicationStartDate;
-    private String applicationFinishDate;
+    private Long electionId;
+
+    private String electionStartDate;
+    private String electionFinishDate;
     private String createdAt;
     private Boolean isActive;
 

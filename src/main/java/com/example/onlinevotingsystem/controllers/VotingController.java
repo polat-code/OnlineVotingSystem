@@ -14,6 +14,8 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/voting")
 @AllArgsConstructor
+@CrossOrigin(origins = "https://votingsystem.herokuapp.com")
+//@CrossOrigin(origins =  "http://localhost:3000")
 public class VotingController {
 
     private VotingService votingService;
@@ -32,6 +34,14 @@ public class VotingController {
         return this.votingService.getAllApplicants(userId);
     }
     // voting
+
+    @PutMapping("/user/{user-id}/canidate/{candidate-id}")
+    public ResponseEntity<Object> votingCandidate(@PathVariable("user-id") Long userId, @PathVariable("candidate-id") Long candidateId){
+        return this.votingService.votingCandidate(userId,candidateId);
+    }
+
+
+
 
 
 

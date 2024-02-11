@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class ApplicationResponse {
 
     private Long applicationId;
+    private Long userId;
     private String transcriptPath;
     private String applicationRequest;
 
@@ -24,4 +25,6 @@ public class ApplicationResponse {
     private String studentSurname;
 
     private String studentNumber;
+    private String departmentName;
+    private int grade;
 }

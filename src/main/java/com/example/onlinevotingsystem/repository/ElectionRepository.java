@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface ElectionRepository extends JpaRepository<Election, Long> {
 
-    @Query(value = "select * from Election  where  f_department_id = ?1",nativeQuery = true)
+    @Query(value = "select * from election  where  f_department_id = ?1",nativeQuery = true)
     Optional<Election> findByDepartmentId(Long studentDepartmentId);
 }

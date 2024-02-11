@@ -13,16 +13,19 @@ import java.util.List;
 @RestController
 @RequestMapping("/elections")
 @AllArgsConstructor
+@CrossOrigin(origins = "https://votingsystem.herokuapp.com")
+//@CrossOrigin(origins =  "http://localhost:3000")
 public class ElectionController {
 
     private ElectionService electionService;
 
     // Add a triger to start election
+    /*
     @PostMapping("")
     public void addElection(@RequestBody CreateElectionRequest createElectionRequest){
         this.electionService.addElection(createElectionRequest);
     }
-
+    */
     @PutMapping("")
     public void voteCandidateByElectionId(@RequestBody VoteRequest voteRequest){
         this.electionService.voteCandidateByElectionId(voteRequest);

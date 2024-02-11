@@ -34,8 +34,7 @@ public class User implements UserDetails {
 
     @Column(name = "email")
     private String email;
-    @Column(name = "password")
-    private String password;
+
 
     @Column(name = "profile_photo_path")
     private String profilePhotoPath;
@@ -43,66 +42,8 @@ public class User implements UserDetails {
     @Column(name = "grade")
     private int grade;
 
-    @Column(name = "role")
-    private Role role;
 
-    @Column(name = "student_number")
-    private String studentNumber;
+    @Column(name = "is_admin")
+    private Boolean isAdmin;
 
-    @OneToOne(mappedBy = "user")
-    private Application application;
-
-    // Add Department
-    @ManyToOne
-    @JoinColumn(
-            name = "f_department_id",
-            referencedColumnName = "department_id"
-    )
-    private Department department;
-
-    @ManyToMany
-    @JoinTable(
-            name = "voters",
-            joinColumns = @JoinColumn(
-                    name = "f_user_id",
-                    referencedColumnName = "user_id"
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name="f_election_id",
-                    referencedColumnName = "election_id"
-            )
-    )
-    private List<Election> elections;
-
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities()
-    {
-        return List.of(new SimpleGrantedAuthority(role.name()));
-    }
-
-    @Override
-    public String getUsername() {
-        return getEmail();
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

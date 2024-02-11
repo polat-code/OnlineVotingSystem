@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/departments")
 @AllArgsConstructor
+@CrossOrigin(origins = "https://votingsystem.herokuapp.com")
+//@CrossOrigin(origins =  "http://localhost:3000")
 public class DepartmentController {
 
     private DepartmentService departmentService;
